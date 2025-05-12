@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+
+# Production build
+dist/
+build/
+
+# Local environment files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite cache
+.vite/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Mac system files
+.DS_Store
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Coverage directory used by tools like Jest or c8
+coverage/
+
+# Optional: if using Storybook
+storybook-static/
+
+# Optional: if using Cypress
+cypress/screenshots/
+cypress/videos/
+
+# Optional: if using Playwright
+test-results/
+.playwright/
+
+# Optional: local dev server PID file
+vite.pid

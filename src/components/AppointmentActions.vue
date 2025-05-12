@@ -1,0 +1,100 @@
+<template>
+  <div class="relative inline-block text-left">
+    <Button icon="pi pi-ellipsis-v" text rounded @click="toggleMenu" />
+    <div
+      v-if="menuVisible"
+      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-white ring-opacity-5 focus:outline-none"
+    >
+      <div class="py-1">
+        <button
+          @click="viewPatient"
+          class="w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+        >
+          Ver utente
+        </button>
+        <button
+          @click="editAppointment"
+          class="w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
+        >
+          Editar agendamento
+        </button>
+        <button
+          @click="deleteAppointment"
+          class="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-100"
+        >
+          Eliminar agendamento
+        </button>
+      </div>
+    </div>
+  </div>
+  <Dialog
+    v-model:visible="visibleDelete"
+    header="Eliminar agendamento"
+    :style="{ width: '25rem' }"
+  >
+    <span class="text-surface-500 dark:text-surface-400 block mb-8"
+      >Tem a certeza que pretende eliminar este agendamento? Esta ação é
+      irreversível.</span
+    >
+    <div class="flex justify-end gap-2">
+      <Button
+        type="button"
+        label="Cancelar"
+        severity="secondary"
+        @click="visibleDelete = false"
+      ></Button>
+      <Button
+        type="button"
+        label="Eliminar"
+        severity="danger"
+        icon="pi pi-trash"
+        @click="visibleDelete = false"
+      ></Button>
+    </div>
+  </Dialog>
+  <EditAppointment v-model:visible="EditAppointmentTab"></EditAppointment>
+  <Appointment v-model:visible="AppointmentTab"></Appointment>
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import EditAppointment from "./EditAppointment.vue";
+import Appointment from "./Appointment.vue";
+
+const menuVisible = ref(false);
+const toggleMenu = () => {
+  menuVisible.value = !menuVisible.value;
+};
+const visibleDelete = ref(false);
+const AppointmentTab = ref(false);
+const EditAppointmentTab = ref(false);
+// Emits (optional modal trigger):
+const emit = defineEmits<{
+  (e: "view"): void;
+  (e: "edit"): void;
+  (e: "delete"): void;
+}>();
+
+const viewPatient = () => {
+  AppointmentTab.value = true;
+  toggleMenu();
+
+};
+const editAppointment = () => {
+  EditAppointmentTab.value = true;
+  toggleMenu();
+
+};
+const deleteAppointment = () => {
+  toggleMenu();
+  visibleDelete.value = true;
+};
+
+// Close on outside click
+</script>
+
+<style scoped>
+/* You can fine-tune spacing or shadow here */
+</style>
