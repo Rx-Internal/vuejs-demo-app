@@ -13,7 +13,7 @@ export interface Task {
   time?: string;
 }
 
-export const tasks = ref<Task[]>([
+export const TASKS = ref<Task[]>([
   {
     time: "08:00",
     name: "Diogo Do Ó de Matos",

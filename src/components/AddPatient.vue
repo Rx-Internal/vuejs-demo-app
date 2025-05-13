@@ -11,7 +11,7 @@
       <TabView>
         <TabPanel header="Dados Pessoais">
           <!-- Personal Data Form -->
-          <div class="bg-[#E3E5FF] rounded-xl px-4 py-2 font-semibold">
+          <div class="bg-[#E3E5FF] rounded-xl px-4 pb-2 mt-9 font-semibold">
             Dados pessoais
           </div>
 
@@ -51,7 +51,7 @@
                 <label class="block text-sm font-medium">Sexo</label>
                 <Dropdown
                   v-model="form.sexo"
-                  :options="sexos"
+                  :options="SEXOS"
                   class="w-full"
                   optionLabel="label"
                   optionValue="value"
@@ -141,17 +141,9 @@ import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 import TabView from "primevue/tabview";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
 import TabPanel from "primevue/tabpanel";
-
+import { SEXOS } from "../data/common";
 const visible = ref(false);
-
-const sexos = [
-  { label: "Masculino", value: "Masculino" },
-  { label: "Feminino", value: "Feminino" },
-];
-
 const form = ref({
   nome: "Jorge Manuel da Guedes Campos",
   dataNascimento: "16-08-1967",
@@ -167,13 +159,7 @@ const form = ref({
   localidade: "Lisboa",
 });
 
-const exams = ref([
-  { tipo: "ECG", data: "2025-05-10" },
-  { tipo: "Holter", data: "2025-05-12" },
-]);
-
 function save() {
-  console.log("Saving...", form.value);
   visible.value = false;
 }
 </script>

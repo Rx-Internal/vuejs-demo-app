@@ -51,7 +51,7 @@
                 <label class="block text-sm font-medium">Sexo</label>
                 <Dropdown
                   v-model="form.sexo"
-                  :options="sexos"
+                  :options="SEXOS"
                   class="w-full"
                   optionLabel="label"
                   optionValue="value"
@@ -132,13 +132,11 @@ import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 import TabView from "primevue/tabview";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
 import TabPanel from "primevue/tabpanel";
 
 const visible = ref(false);
 
-const sexos = [
+const SEXOS = [
   { label: "Masculino", value: "Masculino" },
   { label: "Feminino", value: "Feminino" },
 ];
@@ -158,13 +156,7 @@ const form = ref({
   localidade: "Lisboa",
 });
 
-const exams = ref([
-  { tipo: "ECG", data: "2025-05-10" },
-  { tipo: "Holter", data: "2025-05-12" },
-]);
-
 function save() {
-  console.log("Saving...", form.value);
   visible.value = false;
 }
 </script>

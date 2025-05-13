@@ -4,11 +4,11 @@
     <aside class="w-100 border-r border-[#ECEEF1] px-9 py-9 space-y-8">
       <!-- Agenda Header -->
       <div>
-        <h2 class="text-2xl font-extrabold flex items-center gap-2 mb-4">
-          <i class="pi pi-calendar" style="font-size: 1.3rem"></i>
+        <h2 class="text-2xl font-extrabold flex items-center gap-2 mb-4 text-[#0C163D]">
+          <i class="pi pi-calendar text-[#0C163D]" style="font-size: 1.3rem"></i>
           Agenda
         </h2>
-        <label class="block text-xs font-extrabold mb-2 mt-12">Agenda</label>
+        <label class="block text-xs font-extrabold mb-2 mt-12 text-[#0C163D]">Agenda</label>
         <Dropdown
           v-model="selectedAgenda"
           :options="['ECG', 'ECO', 'Holter', 'MAPA', 'PE']"
@@ -82,7 +82,7 @@
               <div class="p-0.5">{{ day.taskCount }}</div>
               |
               <div class="p-0.5">
-                {{ tasks.filter((t) => t.status === "Validado").length }}
+                {{ TASKS.filter((t) => t.status === "Validado").length }}
               </div>
             </div>
             <div v-else class="h-5"></div>
@@ -126,7 +126,7 @@
         class="space-y-4"
       >
         <div
-          class="flex items-center gap-6 mb-4 px-4 py-2 bg-gray-100 rounded-2xl"
+          class="flex items-center gap-6 mb-4 px-4 py-2 bg-gray-100 rounded-[10px]"
         >
           <span class="font-semibold">{{ hour }}</span>
           <span class="text-xs"
@@ -188,7 +188,13 @@
               <div class="text-xs text-gray-500 flex gap-4 mt-1">
                 <span>CC {{ appt.cc }}</span>
                 <span>SNS {{ appt.sns }}</span>
-                <span><i class="pi pi-phone"></i> {{ appt.phone }}</span>
+                <span
+                  ><i
+                    class="pi pi-phone"
+                    :style="{ fontSize: '12px', fontWeight: 'bolder' }"
+                  ></i>
+                  {{ appt.phone }}</span
+                >
               </div>
               <span class="text-xs">{{ appt.type }}</span>
               <span :value="appt.status" :class="statusColor(appt.status)">
@@ -213,16 +219,12 @@
                 </div>
               </span>
               <div></div>
-              <!-- <i
-                class="pi pi-ellipsis-v text-sm"
-                v-if="appt.status === 'Admitido'"
-              ></i> -->
               <AppointmentActions
                 v-if="appt.status === 'Admitido'"
               ></AppointmentActions>
               <i
-                class="pi pi-print text-sm text-blue-600"
-                style="font-size: 0.5 + rem"
+                class="pi pi-print text-xs text-[#375FD9]"
+                :style="{ fontSize: '12px', fontWeight: 'bolder' }"
                 v-else-if="appt.status === 'Validado'"
               ></i>
               <div v-else></div>
@@ -230,11 +232,14 @@
           </div>
           <div
             v-if="!appt1.length"
-            class="flex justify-center cursor-pointer text-xs items-center align-middle justify-between border border-white text-white hover:text-gray-800 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
+            class="flex justify-center cursor-pointer text-xs items-center align-middle justify-between border border-white text-white hover:text-gray-700 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
             @click="visibleLeft = true"
           >
             Agendar rapidamente
-            <i class="pi pi-plus-circle px-2"></i>
+            <i
+              class="pi pi-plus-circle px-2 font-bold text-xl "
+              :style="{ fontSize: '12px', fontWeight: 'bolder' }"
+            ></i>
           </div>
         </div>
       </div>
@@ -314,14 +319,8 @@ const selectedAgenda = ref("ECG");
 const currentMonth = ref(dayjs());
 const selectedDate = ref(dayjs());
 const showForm = ref(false);
-const Agendado1 = ref(false);
-const Agendado2 = ref(false);
-const Realizado1 = ref(false);
-const Realizado2 = ref(false);
-const Validados1 = ref(false);
-const Validados2 = ref(false);
 
-import { tasks, Task } from "../data/tasksData";
+import { TASKS } from "../data/tasksData";
 import AppointmentStatusBadge from "../components/AppointmentStatusBadge.vue";
 
 const groupedAppointments = computed(() => {
@@ -369,7 +368,7 @@ const newTask = ref({
 });
 
 function addTask() {
-  tasks.value.push({
+  TASKS.value.push({
     ...newTask.value,
     date: selectedDate.value.format("YYYY-MM-DD"),
     time: "08:00",
@@ -409,7 +408,6 @@ function countAppointmentsByStatus(
   status: string
 ): number {
   let count = 0;
-  console.log(data, "data", status);
   for (const timeSlot of Object.values(data)) {
     if (Array.isArray(timeSlot)) {
       for (const appointment of timeSlot) {
@@ -434,7 +432,7 @@ const monthDays = computed(() => {
   let date = startOfWeek;
 
   while (date.isBefore(end, "day") || date.isSame(end, "day")) {
-    const taskCount = tasks.value.filter((t) =>
+    const taskCount = TASKS.value.filter((t) =>
       dayjs(t.date).isSame(date, "day")
     ).length;
     days.push({ date: date, taskCount });
@@ -445,7 +443,7 @@ const monthDays = computed(() => {
 });
 
 const tasksForSelectedDate = computed(() =>
-  tasks.value.filter((t) => dayjs(t.date).isSame(selectedDate.value, "day"))
+  TASKS.value.filter((t) => dayjs(t.date).isSame(selectedDate.value, "day"))
 );
 
 function statusColor(status: string) {

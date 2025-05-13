@@ -6,28 +6,45 @@
   >
     <!-- Prescrição Section -->
     <div class="flex flex-col gap-2">
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap items-end gap-4">
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-gray-600 mb-1"
-            >Médico prescritor</label
-          >
+          <div class="flex justify-between items-center mb-1">
+            <label class="text-sm font-medium text-[#0C163D] mb-1"
+              >Médico prescritor</label
+            >
+            <Tag
+              severity="secondary"
+              value="Opcional"
+              rounded
+              :style="{ fontSize: '12px', fontWeight: 'normal' }"
+            ></Tag>
+          </div>
           <Dropdown
             v-model="form.medicoPrescritor"
-            :options="medicos"
+            :options="MEDICOS"
             optionLabel="label"
             class="w-full"
+            optionValue="value"
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-gray-600 mb-1"
+          <label class="text-sm font-medium text-[#0C163D] mb-1"
             >ID da prescrição</label
           >
           <InputText v-model="form.idPrescricao" class="w-full" />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-gray-600 mb-1"
-            >Carregar prescrição</label
-          >
+          <div class="flex justify-between items-center mb-1">
+            <label class="text-sm font-medium text-[#0C163D] mb-1"
+              >Carregar prescrição</label
+            >
+            <Tag
+              severity="secondary"
+              value="Opcional"
+              rounded
+              :style="{ fontSize: '12px', fontWeight: 'normal' }"
+            ></Tag>
+          </div>
           <FileUpload
             mode="basic"
             name="prescricao"
@@ -40,7 +57,7 @@
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-gray-600 mb-1"
+          <label class="text-sm font-medium text-[#0C163D] mb-1"
             >Senha de Kiosk</label
           >
           <InputText v-model="form.senhaKiosk" class="w-full" />
@@ -53,34 +70,32 @@
       <div class="bg-[#E3E5FF] rounded-xl px-4 py-2 font-semibold">Exames</div>
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-gray-600 mb-1">Hora</label>
+          <label class="text-sm font-medium text-[#0C163D] mb-1">Hora</label>
           <Dropdown
             v-model="form.hora"
-            :options="horas"
+            :options="HORAS"
             optionLabel="label"
             class="w-full"
             variant="filled"
             optionValue="value"
-
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-gray-600 mb-1">Data</label>
+          <label class="text-sm font-medium text-[#0C163D] mb-1">Data</label>
           <Calendar v-model="form.data" dateFormat="dd/mm/yy" class="w-full" />
         </div>
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-gray-600 mb-1">Exame</label>
+          <label class="text-sm font-medium text-[#0C163D] mb-1">Exame</label>
           <Dropdown
             v-model="form.exame"
-            :options="exames"
+            :options="EXAMES"
             optionLabel="label"
             class="w-full"
             optionValue="value"
-
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-gray-600 mb-1"
+          <label class="text-sm font-medium text-[#0C163D] mb-1"
             >Médico consulta</label
           >
           <Dropdown
@@ -89,7 +104,6 @@
             optionLabel="label"
             class="w-full"
             optionValue="value"
-
           />
         </div>
       </div>
@@ -110,16 +124,16 @@
       >
         <span>Utente</span>
         <Button
-          label="Ler Cartão de Cidadão"
+          label="Editar dados"
           link
-          icon="pi pi-check-circle"
+          icon="pi pi-user"
           class="text-blue-500 py-0"
         />
       </div>
     </div>
     <div>
-      <div class="my-4">
-        <h2 class="font-bold my-6">Dados pessoais</h2>
+      <div class="my-4 text-sm">
+        <h2 class="font-bold text-base my-6">Dados pessoais</h2>
         <div class="grid grid-cols-5 gap-6">
           <div class="col-span-3">
             <label class="font-medium">Nome Completo</label>
@@ -172,8 +186,8 @@
         </div>
       </div>
 
-      <div class="my-4">
-        <h2 class="font-bold my-4">Contactos de emergência</h2>
+      <div class="my-4 text-sm">
+        <h2 class="font-bold text-base my-4">Contactos de emergência</h2>
         <div class="grid grid-cols-2 gap-4">
           <div class="col-span-1">
             <label class="font-medium">Nome Completo</label>
@@ -186,8 +200,8 @@
         </div>
       </div>
 
-      <div class="my-4">
-        <h2 class="font-bold">Resumo</h2>
+      <div class="my-4 text-sm">
+        <h2 class="font-bold text-base">Resumo</h2>
         <p>Agendamento criado em: 16/03/2025</p>
       </div>
 
@@ -218,6 +232,7 @@
             label="Gravar"
             icon="pi pi-save"
             class="text-sm"
+            iconPos="right"
             @click="save"
           />
         </div>
@@ -235,15 +250,17 @@ import Calendar from "primevue/calendar";
 import Checkbox from "primevue/checkbox";
 import FileUpload from "primevue/fileupload";
 import Drawer from "primevue/drawer";
+import { MEDICOS, HORAS, EXAMES } from "../data/common";
+import Tag from "primevue/tag";
 
 const form = ref({
   medicoPrescritor: null,
   idPrescricao: "",
   senhaKiosk: "",
   hora: "11:00",
-  data: '10/04/2025',
+  data: "10/04/2025",
   exame: "ECG",
-  medicoConsulta: 'auto',
+  medicoConsulta: "auto",
   nomeCompleto: "",
   dataNascimento: "",
   cartaoCidadao: "",
@@ -251,22 +268,6 @@ const form = ref({
   confirmado: false,
 });
 
-const medicos = ['{ label: "Dr. Silva", value: "silva" }'];
-const horas = [
-  { label: "11:00", value: "11:00" },
-  { label: "11:30", value: "11:30" },
-  { label: "12:00", value: "12:00" },
-  { label: "12:30", value: "12:30" },
-  { label: "13:00", value: "13:00" },
-  { label: "13:30", value: "13:30" },
-];
-const exames = [
-  { label: "ECG", value: "ECG" },
-  { label: "ECOG", value: "ECOG" },
-  { label: "PE", value: "PE" },
-  { label: "MAPA", value: "MAPA" },
-  { label: "Holter", value: "Holter" },
-];
 const medicosConsulta = [{ label: "Automático", value: "auto" }];
 </script>
 

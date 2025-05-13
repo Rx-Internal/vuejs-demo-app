@@ -1,9 +1,14 @@
 <template>
   <div class="relative inline-block text-left">
-    <i class="pi pi-ellipsis-v  text-blue-700 cursor-pointer mt-1" text  @click="toggleMenu" />
+    <i
+      class="pi pi-ellipsis-v text-[#375FD9] cursor-pointer mt-1 font-extrabold"
+      :style="{ fontSize: '12px', fontWeight: 'bolder' }"
+      text
+      @click="toggleMenu"
+    />
     <div
       v-if="menuVisible"
-      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-white ring-opacity-5 focus:outline-none"
+      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white shadow-2xl ring-1 ring-white ring-opacity-5 focus:outline-none"
     >
       <div class="py-1">
         <button
@@ -28,9 +33,11 @@
     </div>
   </div>
   <Dialog
+    class="rounded-4xl"
     v-model:visible="visibleDelete"
     header="Eliminar agendamento"
-    :style="{ width: '25rem' }"
+    :style="{ width: '25rem',borderRadius :'36px' }"
+  
   >
     <span class="text-surface-500 dark:text-surface-400 block mb-8"
       >Tem a certeza que pretende eliminar este agendamento? Esta ação é
@@ -40,6 +47,7 @@
       <Button
         type="button"
         label="Cancelar"
+        variant="text" 
         severity="secondary"
         @click="visibleDelete = false"
       ></Button>
@@ -49,6 +57,7 @@
         severity="danger"
         icon="pi pi-trash"
         @click="visibleDelete = false"
+        icon-pos="right"
       ></Button>
     </div>
   </Dialog>
@@ -80,12 +89,10 @@ const emit = defineEmits<{
 const viewPatient = () => {
   AppointmentTab.value = true;
   toggleMenu();
-
 };
 const editAppointment = () => {
   EditAppointmentTab.value = true;
   toggleMenu();
-
 };
 const deleteAppointment = () => {
   toggleMenu();
@@ -96,5 +103,8 @@ const deleteAppointment = () => {
 </script>
 
 <style scoped>
+.pi {
+  font-size: 12px !important;
+}
 /* You can fine-tune spacing or shadow here */
 </style>
