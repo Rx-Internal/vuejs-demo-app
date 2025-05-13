@@ -58,6 +58,11 @@
             :class="{
               'bg-indigo-600 text-white  font-bold hover:bg-indigo-600':
                 day.date.isSame(selectedDate, 'day'),
+              'pointer-events-none opacity-50': !(
+                day.date.month() === currentMonth.month() && day.taskCount
+              ),
+              'cursor-pointer':
+                day.date.month() === currentMonth.month() && day.taskCount,
             }"
             @click="selectedDate = day.date"
           >
@@ -70,9 +75,9 @@
             <div
               v-if="day.taskCount > 0"
               :class="{
-                ' text-white  font-bold': day.date.isSame(selectedDate, 'day'),
+                ' text-white  ': day.date.isSame(selectedDate, 'day'),
               }"
-              class="text-xs font-bold flex border-t-2"
+              class="text-xs flex border-t-2"
             >
               <div class="p-0.5">{{ day.taskCount }}</div>
               |
@@ -123,41 +128,25 @@
         <div
           class="flex items-center gap-6 mb-4 px-4 py-2 bg-gray-100 rounded-2xl"
         >
-          <span class="font-semibold">Manhã {{ hour }}</span>
+          <span class="font-semibold">{{ hour }}</span>
           <span class="text-xs"
             >Total {{ totalAppointments(appointments) }}</span
           >
-          <span
-            class="text-xs bg-white px-3 py-1 border-2 border-white font-medium flex justify-center items-center rounded-sm"
-          >
-            <div class="bg-[#6C57DB] h-3 w-3 rounded-4xl mr-2"></div>
-            Agendado
-
-            <div class="ml-2">
-              {{ countAppointmentsByStatus(appointments, "Admitido") }}
-            </div>
-          </span>
-          <span
-            class="text-xs bg-white px-3 py-1 border-2 border-white font-medium flex justify-center items-center rounded-sm"
-          >
-            <div class="bg-[#FDCC12] h-3 w-3 rounded-4xl mr-2"></div>
-
-            Realizado
-            <div class="ml-2">
-              {{ countAppointmentsByStatus(appointments, "Realizado") }}
-            </div>
-          </span>
-          <span
-            class="text-xs bg-white px-3 py-1 border-2 border-white font-medium flex justify-center items-center rounded-sm"
-          >
-            <div class="bg-[#44CEA0] h-3 w-3 rounded-4xl mr-2"></div>
-
-            Validados
-
-            <div class="ml-2">
-              {{ countAppointmentsByStatus(appointments, "Validado") }}
-            </div>
-          </span>
+          <AppointmentStatusBadge
+            label="Agendado"
+            color="#6C57DB"
+            :count="countAppointmentsByStatus(appointments, 'Admitido')"
+          />
+          <AppointmentStatusBadge
+            label="Realizado"
+            color="#FDCC12"
+            :count="countAppointmentsByStatus(appointments, 'Realizado')"
+          />
+          <AppointmentStatusBadge
+            label="Validados"
+            color="#44CEA0"
+            :count="countAppointmentsByStatus(appointments, 'Validado')"
+          />
         </div>
 
         <div v-for="(appt1, index) in appointments" :key="index">
@@ -215,7 +204,13 @@
                     {{ appt.status }}
                   </div>
                 </div>
-                <div class="cursor-pointer" @click="AppointmentTab = true" v-else>Admitir</div>
+                <div
+                  class="cursor-pointer"
+                  @click="AppointmentTab = true"
+                  v-else
+                >
+                  Admitir
+                </div>
               </span>
               <div></div>
               <!-- <i
@@ -226,16 +221,16 @@
                 v-if="appt.status === 'Admitido'"
               ></AppointmentActions>
               <i
-                class="pi pi-print text-sm text-blue-600 pr-4"
+                class="pi pi-print text-sm text-blue-600"
                 style="font-size: 0.5 + rem"
                 v-else-if="appt.status === 'Validado'"
               ></i>
-              <div v-else> </div>
+              <div v-else></div>
             </div>
           </div>
           <div
             v-if="!appt1.length"
-            class="flex justify-center text-xs items-center align-middle justify-between border border-white text-white hover:text-gray-800 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
+            class="flex justify-center cursor-pointer text-xs items-center align-middle justify-between border border-white text-white hover:text-gray-800 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
             @click="visibleLeft = true"
           >
             Agendar rapidamente
@@ -319,104 +314,15 @@ const selectedAgenda = ref("ECG");
 const currentMonth = ref(dayjs());
 const selectedDate = ref(dayjs());
 const showForm = ref(false);
-const Agendado1 = ref(false);  
-const Agendado2 = ref(false);  
-const Realizado1 = ref(false);  
-const Realizado2 = ref(false);  
-const Validados1 = ref(false);  
-const Validados2 = ref(false);  
+const Agendado1 = ref(false);
+const Agendado2 = ref(false);
+const Realizado1 = ref(false);
+const Realizado2 = ref(false);
+const Validados1 = ref(false);
+const Validados2 = ref(false);
 
-const tasks = ref<
-  {
-    date: string;
-    name: string;
-    age: number;
-    cc: string;
-    sns: string;
-    phone: string;
-    type: string;
-    status: string;
-    time?: string;
-  }[]
->([
-  {
-    time: "08:00",
-    name: "Diogo Do Ó de Matos",
-    age: 27,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Validado",
-    date: "2025-05-12",
-  },
-  {
-    time: "08:30",
-    name: "Wellington Pedroso",
-    age: 63,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Realizado",
-    date: "2025-05-12",
-  },
-  {
-    time: "09:00",
-    name: "Ana Rita Mourato Gomes",
-    age: 47,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Admitido",
-    date: "2025-05-12",
-  },
-  {
-    time: "09:30",
-    name: "Maria José Antunes",
-    age: 81,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Admitido",
-    date: "2025-05-12",
-  },
-  {
-    time: "10:00",
-    name: "João Miguel Pereira",
-    age: 33,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Admitido",
-    date: "2025-05-12",
-  },
-  {
-    time: "10:30",
-    name: "Sofia Matos Silva",
-    age: 40,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Admitido",
-    date: "2025-05-12",
-  },
-  {
-    time: "13:00",
-    name: "Carlos Fonseca",
-    age: 55,
-    cc: "12345678",
-    sns: "123456789",
-    phone: "912 345 678",
-    type: "ECG",
-    status: "Admitido",
-    date: "2025-05-12",
-  },
-]);
+import { tasks, Task } from "../data/tasksData";
+import AppointmentStatusBadge from "../components/AppointmentStatusBadge.vue";
 
 const groupedAppointments = computed(() => {
   const grouped: Record<string, Record<string, typeof tasksForSelectedDate>> = {

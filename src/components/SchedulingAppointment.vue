@@ -37,7 +37,7 @@
             :maxFileSize="1000000"
             :auto="true"
             chooseLabel="Escolher ficheiro"
-            class="w-full"
+            class="w-full p-button-outlined"
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
@@ -189,9 +189,9 @@ const form = ref({
   idPrescricao: "",
   senhaKiosk: "",
   hora: "11:00",
-  data: '10/04/2025',
+  data: "10/04/2025",
   exame: "ECG",
-  medicoConsulta: 'auto',
+  medicoConsulta: "auto",
   nomeCompleto: "",
   dataNascimento: "",
   cartaoCidadao: "",

@@ -1,6 +1,6 @@
 <template>
   <div class="relative inline-block text-left">
-    <Button icon="pi pi-ellipsis-v" text rounded @click="toggleMenu" />
+    <i class="pi pi-ellipsis-v  text-blue-700 cursor-pointer mt-1" text  @click="toggleMenu" />
     <div
       v-if="menuVisible"
       class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-white ring-opacity-5 focus:outline-none"
