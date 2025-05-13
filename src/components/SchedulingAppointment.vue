@@ -134,12 +134,22 @@
       >
         <span>Utente</span>
         <Button
+          v-if="isUtente"
           label="Ler Cartão de Cidadão"
           link
           icon="pi pi-check-circle"
           class="text-[#4f39f6] py-0 font-extrabold"
           style="font-weight: bolder"
           @click="isUtente = !isUtente"
+        />
+        <Button
+          v-else
+          label="Ler Cartão de Cidadão"
+          link
+          icon="pi pi-user"
+          class="text-[#4f39f6] py-0 font-extrabold"
+          style="font-weight: bolder"
+          @click="IsViewPatient = !IsViewPatient"
         />
       </div>
       <div v-if="isUtente" class="">
@@ -246,7 +256,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -274,37 +283,40 @@
         </div>
       </div>
     </template>
+    <ViewPatient v-model:visible="IsViewPatient"></ViewPatient>
   </Drawer>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import Dropdown from "primevue/dropdown";
-import Calendar from "primevue/calendar";
-import Checkbox from "primevue/checkbox";
-import FileUpload from "primevue/fileupload";
-import Drawer from "primevue/drawer";
-import { MEDICOS, HORAS, EXAMES } from "../data/common";
-import Tag from "primevue/tag";
-const isUtente = ref(true)
+import { ref } from 'vue';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
+import Calendar from 'primevue/calendar';
+import Checkbox from 'primevue/checkbox';
+import FileUpload from 'primevue/fileupload';
+import Drawer from 'primevue/drawer';
+import { MEDICOS, HORAS, EXAMES } from '../constants/common';
+import Tag from 'primevue/tag';
+import ViewPatient from './ViewPatient.vue';
+const isUtente = ref(true);
 const form = ref({
-  medicoPrescritor: "",
-  idPrescricao: "",
-  senhaKiosk: "",
-  hora: "11:00",
-  data: "10/04/2025",
-  exame: "ECG",
-  medicoConsulta: "auto",
-  nomeCompleto: "",
-  dataNascimento: "",
-  cartaoCidadao: "",
-  telefone: "",
+  medicoPrescritor: '',
+  idPrescricao: '',
+  senhaKiosk: '',
+  hora: '11:00',
+  data: '10/04/2025',
+  exame: 'ECG',
+  medicoConsulta: 'auto',
+  nomeCompleto: '',
+  dataNascimento: '',
+  cartaoCidadao: '',
+  telefone: '',
   confirmado: false,
 });
+const IsViewPatient = ref(false);
 
-const medicosConsulta = [{ label: "Automático", value: "auto" }];
+const medicosConsulta = [{ label: 'Automático', value: 'auto' }];
 </script>
 
 <style scoped>

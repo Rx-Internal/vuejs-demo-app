@@ -120,40 +120,41 @@
           icon="pi pi-save"
           class="text-sm"
           @click="save"
+          iconPos="right"
         /></div
     ></template>
   </Dialog>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import Dialog from "primevue/dialog";
-import InputText from "primevue/inputtext";
-import Dropdown from "primevue/dropdown";
-import Button from "primevue/button";
-import TabView from "primevue/tabview";
-import TabPanel from "primevue/tabpanel";
+import { ref } from 'vue';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
+import Button from 'primevue/button';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 
 const visible = ref(false);
 
 const SEXOS = [
-  { label: "Masculino", value: "Masculino" },
-  { label: "Feminino", value: "Feminino" },
+  { label: 'Masculino', value: 'Masculino' },
+  { label: 'Feminino', value: 'Feminino' },
 ];
 
 const form = ref({
-  nome: "Jorge Manuel da Guedes Campos",
-  dataNascimento: "16-08-1967",
-  cc: "12345678",
-  contribuinte: "",
-  nutente: "987654321",
-  sexo: "Masculino",
-  processo: "",
-  email: "",
-  telefone: "912 345 678",
-  morada: "Rua do Centro",
-  codPostal: "1000-000",
-  localidade: "Lisboa",
+  nome: 'Jorge Manuel da Guedes Campos',
+  dataNascimento: '16-08-1967',
+  cc: '12345678',
+  contribuinte: '',
+  nutente: '987654321',
+  sexo: 'Masculino',
+  processo: '',
+  email: '',
+  telefone: '912 345 678',
+  morada: 'Rua do Centro',
+  codPostal: '1000-000',
+  localidade: 'Lisboa',
 });
 
 function save() {

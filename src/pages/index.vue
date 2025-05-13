@@ -4,18 +4,24 @@
     <aside class="w-100 border-r border-[#ECEEF1] px-9 py-9 space-y-8">
       <!-- Agenda Header -->
       <div>
-        <h2 class="text-2xl font-extrabold flex items-center gap-2 mb-4 text-[#0C163D]">
-          <i class="pi pi-calendar text-[#0C163D]" style="font-size: 1.3rem"></i>
+        <h2
+          class="text-2xl font-extrabold flex items-center gap-2 mb-4 text-[#0C163D]"
+        >
+          <i
+            class="pi pi-calendar text-[#0C163D]"
+            style="font-size: 1.3rem"
+          ></i>
           Agenda
         </h2>
-        <label class="block text-xs font-extrabold mb-2 mt-12 text-[#0C163D]">Agenda</label>
+        <label class="block text-xs font-extrabold mb-2 mt-12 text-[#0C163D]"
+          >Agenda</label
+        >
         <Dropdown
           v-model="selectedAgenda"
           :options="['ECG', 'ECO', 'Holter', 'MAPA', 'PE']"
           class="w-full"
         />
       </div>
-
       <!-- Calendar -->
       <div class="mt-12">
         <label class="block text-xs font-extrabold mb-3.5">Calendário</label>
@@ -28,9 +34,7 @@
             :pt="{ icon: { class: 'text-xl ' } }"
             @click="prevMonth"
           />
-          <span class="text-gray-700 text-xl">{{
-            currentMonth.format("MMMM YYYY")
-          }}</span>
+          <span class="text-gray-700 text-xl">{{ formattedMonth }}</span>
           <Button
             icon="pi pi-chevron-right"
             variant="outlined"
@@ -82,7 +86,9 @@
               <div class="p-0.5">{{ day.taskCount }}</div>
               |
               <div class="p-0.5">
-                {{ TASKS.filter((t) => t.status === "Validado").length }}
+                {{
+                  agendaStore.items.filter(t => t.status === 'Validado').length
+                }}
               </div>
             </div>
             <div v-else class="h-5"></div>
@@ -102,10 +108,10 @@
 
             <div>
               <h2 class="text-lg font-semibold">
-                {{ selectedDate.format("D [de] MMMM [de] YYYY") }}
+                {{ selectedDate.format('D [de] MMMM [de] YYYY') }}
               </h2>
               <p class="text-xs text-gray-500">
-                {{ selectedDate.format("dddd") }}
+                {{ selectedDate.format('dddd') }}
               </p>
             </div>
           </div>
@@ -172,7 +178,7 @@
               ></div>
 
               <div class="w-14 font-bold text-gray-400">
-                {{ appt.time || "08:00" }}
+                {{ appt.time || '08:00' }}
               </div>
               <div>
                 <div class="font-semibold">
@@ -196,11 +202,24 @@
                   {{ appt.phone }}</span
                 >
               </div>
-              <span class="text-xs">{{ appt.type }}</span>
+              <span v-if="appt.pin" class="text-sm font-bold"
+                >{{ appt.pin
+                }}<i
+                  class="pi pi-tag text-blue-700 font-bold px-1"
+                  :style="{ fontSize: '12px', fontWeight: 'bolder' }"
+                ></i
+              ></span>
+              <div v-else class="px-4"></div>
+              <span v-if="appt.pin" class="text-xs text-gray-500">{{
+                appt.time
+              }}</span>
+              <div v-else class="px-4"></div>
+
+              <span class="text-xs text-gray-500">{{ appt.type }}</span>
               <span :value="appt.status" :class="statusColor(appt.status)">
                 <div
                   v-if="appt.status !== 'Admitido'"
-                  class="flex items-center"
+                  class="flex items-center justify-center w-24 bg-gray-50 rounded-sm px-auto"
                 >
                   <div
                     :class="statusbgColor(appt.status)"
@@ -211,7 +230,7 @@
                   </div>
                 </div>
                 <div
-                  class="cursor-pointer"
+                  class="cursor-pointer w-24 flex items-center justify-center"
                   @click="AppointmentTab = true"
                   v-else
                 >
@@ -227,7 +246,12 @@
                 :style="{ fontSize: '12px', fontWeight: 'bolder' }"
                 v-else-if="appt.status === 'Validado'"
               ></i>
-              <div v-else></div>
+              <i
+                class="pi pi-user text-xs text-[#375FD9]"
+                :style="{ fontSize: '12px', fontWeight: 'bolder' }"
+                v-else-if="appt.pin"
+              ></i>
+              <div v-else class="w-3"></div>
             </div>
           </div>
           <div
@@ -237,7 +261,7 @@
           >
             Agendar rapidamente
             <i
-              class="pi pi-plus-circle px-2 font-bold text-xl "
+              class="pi pi-plus-circle px-2 font-bold text-xl"
               :style="{ fontSize: '12px', fontWeight: 'bolder' }"
             ></i>
           </div>
@@ -296,32 +320,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import dayjs from "dayjs";
-import "dayjs/locale/pt";
-import Dropdown from "primevue/dropdown";
-import Button from "primevue/button";
-import Dialog from "primevue/dialog";
-import InputText from "primevue/inputtext";
-import SchedulingAppointment from "../components/SchedulingAppointment.vue";
-import ViewPatient from "../components/ViewPatient.vue";
-import AppointmentActions from "../components/AppointmentActions.vue";
-import Appointment from "../components/Appointment.vue";
-import AddPatient from "../components/AddPatient.vue";
-dayjs.locale("pt");
+import { ref, computed, onMounted } from 'vue';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt';
+import Dropdown from 'primevue/dropdown';
+import Button from 'primevue/button';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import SchedulingAppointment from '../components/SchedulingAppointment.vue';
+import ViewPatient from '../components/ViewPatient.vue';
+import AppointmentActions from '../components/AppointmentActions.vue';
+import Appointment from '../components/Appointment.vue';
+import AddPatient from '../components/AddPatient.vue';
+import { useAgendaStore } from '../stores/agenda';
+import AppointmentStatusBadge from '../components/AppointmentStatusBadge.vue';
+
+dayjs.locale('pt');
+
+const agendaStore = useAgendaStore();
+
+// Fetch items when component mounts
+onMounted(async () => {
+  await agendaStore.fetchItems();
+});
 
 const visibleLeft = ref(false);
 const AppointmentTab = ref(false);
 const ViewPatientTab = ref(false);
 const AddPatientTab = ref(false);
 
-const selectedAgenda = ref("ECG");
+const selectedAgenda = ref('ECG');
 const currentMonth = ref(dayjs());
 const selectedDate = ref(dayjs());
 const showForm = ref(false);
 
-import { TASKS } from "../data/tasksData";
-import AppointmentStatusBadge from "../components/AppointmentStatusBadge.vue";
+const formattedMonth = computed(() => {
+  const month = currentMonth.value.format('MMMM YYYY');
+  return month.charAt(0).toUpperCase() + month.slice(1);
+});
 
 const groupedAppointments = computed(() => {
   const grouped: Record<string, Record<string, typeof tasksForSelectedDate>> = {
@@ -331,7 +367,7 @@ const groupedAppointments = computed(() => {
 
   // Initialize all 24 hours with empty arrays for each period
   for (let hour = 0; hour < 24; hour++) {
-    const hourString = `${hour.toString().padStart(2, "0")}:00`;
+    const hourString = `${hour.toString().padStart(2, '0')}:00`;
 
     // Determine which period the hour belongs to
     if (hour >= 8 && hour < 13) {
@@ -342,8 +378,8 @@ const groupedAppointments = computed(() => {
   }
 
   // Group appointments by hour
-  tasksForSelectedDate.value.map((appt) => {
-    const hour = appt.time.slice(0, 2) + ":00";
+  tasksForSelectedDate.value.map(appt => {
+    const hour = appt.time.slice(0, 2) + ':00';
     if (parseInt(hour.slice(0, 2)) >= 8 && parseInt(hour.slice(0, 2)) < 12) {
       grouped.Manhã[hour].push(appt);
     } else if (
@@ -358,45 +394,52 @@ const groupedAppointments = computed(() => {
 });
 
 const newTask = ref({
-  name: "",
+  name: '',
   age: 0,
-  cc: "",
-  sns: "",
-  phone: "",
-  type: "ECG",
-  status: "Validado",
+  cc: '',
+  sns: '',
+  phone: '',
+  type: 'ECG',
+  status: 'Validado',
 });
 
 function addTask() {
-  TASKS.value.push({
-    ...newTask.value,
-    date: selectedDate.value.format("YYYY-MM-DD"),
-    time: "08:00",
+  agendaStore.addItem({
+    title: newTask.value.name,
+    date: selectedDate.value.format('YYYY-MM-DD'),
+    time: '08:00',
+    type: newTask.value.type,
+    status: newTask.value.status,
+    name: newTask.value.name,
+    age: newTask.value.age,
+    cc: newTask.value.cc,
+    sns: newTask.value.sns,
+    phone: newTask.value.phone,
   });
   showForm.value = false;
   Object.assign(newTask.value, {
-    name: "",
+    name: '',
     age: 0,
-    cc: "",
-    sns: "",
-    phone: "",
-    type: "ECG",
-    status: "Validado",
+    cc: '',
+    sns: '',
+    phone: '',
+    type: 'ECG',
+    status: 'Validado',
   });
 }
 
 function prevMonth() {
-  currentMonth.value = currentMonth.value.subtract(1, "month");
+  currentMonth.value = currentMonth.value.subtract(1, 'month');
 }
 
 function nextMonth() {
-  currentMonth.value = currentMonth.value.add(1, "month");
+  currentMonth.value = currentMonth.value.add(1, 'month');
 }
 function previousDay() {
-  selectedDate.value = selectedDate.value.subtract(1, "day");
+  selectedDate.value = selectedDate.value.subtract(1, 'day');
 }
 function nextDay() {
-  selectedDate.value = selectedDate.value.add(1, "day");
+  selectedDate.value = selectedDate.value.add(1, 'day');
 }
 
 function totalAppointments(data) {
@@ -423,47 +466,49 @@ function countAppointmentsByStatus(
 
 const monthDays = computed(() => {
   // Get the first date of the month
-  const start = currentMonth.value.startOf("month");
+  const start = currentMonth.value.startOf('month');
   // Start from the first day of the month, even if it doesn't align with Sunday or Monday
-  const startOfWeek = start.startOf("week"); // Starts from Sunday
-  const end = currentMonth.value.endOf("month").endOf("week"); // End of the current month week
+  const startOfWeek = start.startOf('week'); // Starts from Sunday
+  const end = currentMonth.value.endOf('month').endOf('week'); // End of the current month week
 
   const days = [];
   let date = startOfWeek;
 
-  while (date.isBefore(end, "day") || date.isSame(end, "day")) {
-    const taskCount = TASKS.value.filter((t) =>
-      dayjs(t.date).isSame(date, "day")
+  while (date.isBefore(end, 'day') || date.isSame(end, 'day')) {
+    const taskCount = agendaStore.items.filter(t =>
+      dayjs(t.date).isSame(date, 'day')
     ).length;
     days.push({ date: date, taskCount });
-    date = date.add(1, "day");
+    date = date.add(1, 'day');
   }
 
   return days;
 });
 
 const tasksForSelectedDate = computed(() =>
-  TASKS.value.filter((t) => dayjs(t.date).isSame(selectedDate.value, "day"))
+  agendaStore.items?.filter(t =>
+    dayjs(t.date).isSame(selectedDate.value, 'day')
+  )
 );
 
 function statusColor(status: string) {
   return (
     {
-      Validado: "text-[#44CEA0]",
-      Realizado: "text-[#FDCC12]",
-      Admitido: "text-[#6C57DB]",
-      Requisitado: "secondary",
-    }[status] || "secondary"
+      Validado: 'text-[#44CEA0]',
+      Realizado: 'text-[#FDCC12]',
+      Admitido: 'text-[#6C57DB]',
+      Requisitado: 'secondary',
+    }[status] || 'secondary'
   );
 }
 function statusbgColor(status: string) {
   return (
     {
-      Validado: "bg-[#44CEA0]",
-      Realizado: "bg-[#FDCC12]",
-      Admitido: "bg-[#6C57DB]",
-      Requisitado: "bg-secondary",
-    }[status] || "bg-secondary"
+      Validado: 'bg-[#44CEA0]',
+      Realizado: 'bg-[#FDCC12]',
+      Admitido: 'bg-[#6C57DB]',
+      Requisitado: 'bg-secondary',
+    }[status] || 'bg-secondary'
   );
 }
 </script>

@@ -36,8 +36,7 @@
     class="rounded-4xl"
     v-model:visible="visibleDelete"
     header="Eliminar agendamento"
-    :style="{ width: '25rem',borderRadius :'36px' }"
-  
+    :style="{ width: '25rem', borderRadius: '36px' }"
   >
     <span class="text-surface-500 dark:text-surface-400 block mb-8"
       >Tem a certeza que pretende eliminar este agendamento? Esta ação é
@@ -47,7 +46,7 @@
       <Button
         type="button"
         label="Cancelar"
-        variant="text" 
+        variant="text"
         severity="secondary"
         @click="visibleDelete = false"
       ></Button>
@@ -66,11 +65,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import Button from "primevue/button";
-import Dialog from "primevue/dialog";
-import EditAppointment from "./EditAppointment.vue";
-import Appointment from "./Appointment.vue";
+import { ref } from 'vue';
+import Button from 'primevue/button';
+import Dialog from 'primevue/dialog';
+import EditAppointment from './EditAppointment.vue';
+import Appointment from './Appointment.vue';
 
 const menuVisible = ref(false);
 const toggleMenu = () => {
@@ -81,9 +80,9 @@ const AppointmentTab = ref(false);
 const EditAppointmentTab = ref(false);
 // Emits (optional modal trigger):
 const emit = defineEmits<{
-  (e: "view"): void;
-  (e: "edit"): void;
-  (e: "delete"): void;
+  (e: 'view'): void;
+  (e: 'edit'): void;
+  (e: 'delete'): void;
 }>();
 
 const viewPatient = () => {

@@ -11,8 +11,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import PrimeSidebar from "primevue/sidebar";
+import { ref } from 'vue';
+import PrimeSidebar from 'primevue/sidebar';
 const sidebarVisible = ref(false);
 </script>
 

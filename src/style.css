@@ -1,11 +1,25 @@
 @import 'primeicons/primeicons.css';
-@import "tailwindcss";
+@import 'tailwindcss';
 /* @import 'tailwindcss-primeui' */
 
 button.p-button.p-component.p-button-icon-only.p-button-outlined {
-    padding: 0.1 0.5rem !important;
-    /* override default padding */
-    font-size: 0.875rem;
-    /* text-sm */
-    height: auto;
+  padding: 0.1 0.5rem !important;
+  /* override default padding */
+  font-size: 0.875rem;
+  /* text-sm */
+  height: auto;
+}
+
+@tailwind utilities;
+
+body {
+  @apply font-sans;
+}
+
+.p-component {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+*:not(.pi):not([class*='pi-']):not(.p-icon) {
+  font-family: 'Poppins', sans-serif !important;
 }

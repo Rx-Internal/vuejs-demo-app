@@ -18,7 +18,7 @@
           <div class="mt-4">
             <div class="grid grid-cols-5 gap-4">
               <div class="col-span-3">
-                <label class="block text-sm font-medium"
+                <label class="text-sm font-medium flex justify-between"
                   >Nome Completo
                   <span class="text-gray-400">Obrigatório</span></label
                 >
@@ -135,28 +135,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import Dialog from "primevue/dialog";
-import InputText from "primevue/inputtext";
-import Dropdown from "primevue/dropdown";
-import Button from "primevue/button";
-import TabView from "primevue/tabview";
-import TabPanel from "primevue/tabpanel";
-import { SEXOS } from "../data/common";
+import { ref } from 'vue';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
+import Button from 'primevue/button';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
+import { SEXOS } from '../constants/common';
 const visible = ref(false);
 const form = ref({
-  nome: "Jorge Manuel da Guedes Campos",
-  dataNascimento: "16-08-1967",
-  cc: "12345678",
-  contribuinte: "",
-  nutente: "987654321",
-  sexo: "Masculino",
-  processo: "",
-  email: "",
-  telefone: "912 345 678",
-  morada: "Rua do Centro",
-  codPostal: "1000-000",
-  localidade: "Lisboa",
+  nome: 'Jorge Manuel da Guedes Campos',
+  dataNascimento: '16-08-1967',
+  cc: '12345678',
+  contribuinte: '',
+  nutente: '987654321',
+  sexo: 'Masculino',
+  processo: '',
+  email: '',
+  telefone: '912 345 678',
+  morada: 'Rua do Centro',
+  codPostal: '1000-000',
+  localidade: 'Lisboa',
 });
 
 function save() {

@@ -128,6 +128,7 @@
           link
           icon="pi pi-user"
           class="text-blue-500 py-0"
+          @click="IsViewPatient = !IsViewPatient"
         />
       </div>
     </div>
@@ -238,37 +239,39 @@
         </div>
       </div>
     </template>
+    <ViewPatient v-model:visible="IsViewPatient"></ViewPatient>
   </Drawer>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import Dropdown from "primevue/dropdown";
-import Calendar from "primevue/calendar";
-import Checkbox from "primevue/checkbox";
-import FileUpload from "primevue/fileupload";
-import Drawer from "primevue/drawer";
-import { MEDICOS, HORAS, EXAMES } from "../data/common";
-import Tag from "primevue/tag";
+import { ref } from 'vue';
+import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
+import Calendar from 'primevue/calendar';
+import Checkbox from 'primevue/checkbox';
+import FileUpload from 'primevue/fileupload';
+import Drawer from 'primevue/drawer';
+import { MEDICOS, HORAS, EXAMES } from '../constants/common';
+import Tag from 'primevue/tag';
+import ViewPatient from './ViewPatient.vue';
 
 const form = ref({
   medicoPrescritor: null,
-  idPrescricao: "",
-  senhaKiosk: "",
-  hora: "11:00",
-  data: "10/04/2025",
-  exame: "ECG",
-  medicoConsulta: "auto",
-  nomeCompleto: "",
-  dataNascimento: "",
-  cartaoCidadao: "",
-  telefone: "",
+  idPrescricao: '',
+  senhaKiosk: '',
+  hora: '11:00',
+  data: '10/04/2025',
+  exame: 'ECG',
+  medicoConsulta: 'auto',
+  nomeCompleto: '',
+  dataNascimento: '',
+  cartaoCidadao: '',
+  telefone: '',
   confirmado: false,
 });
-
-const medicosConsulta = [{ label: "Automático", value: "auto" }];
+const IsViewPatient = ref(false);
+const medicosConsulta = [{ label: 'Automático', value: 'auto' }];
 </script>
 
 <style scoped>
