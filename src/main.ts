@@ -8,6 +8,7 @@ import Aura from '@primeuix/themes/aura';
 import 'primeicons/primeicons.css';
 import 'tailwindcss-primeui';
 import { definePreset } from '@primeuix/themes';
+import { i18n } from './plugins/i18n';
 
 const MyPreset = definePreset(Aura, {
   semantic: {
@@ -45,6 +46,7 @@ const pinia = createPinia();
 app
   .use(router)
   .use(pinia)
+  .use(i18n)
   .use(PrimeVue, {
     theme: {
       preset: MyPreset,

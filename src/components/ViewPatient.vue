@@ -3,83 +3,99 @@
     v-model:visible="visible"
     modal
     :style="{ width: '55vw' }"
-    header="Utente"
+    :header="$t('dialog.title')"
     :closable="true"
   >
     <div class="p-4 space-y-6">
       <!-- Tabs -->
       <TabView>
-        <TabPanel header="Dados Pessoais">
+        <TabPanel :header="$t('tabs.personalData')">
           <!-- Personal Data Form -->
           <div class="bg-[#E3E5FF] rounded-xl px-4 py-2 font-semibold">
-            Dados pessoais
+            {{ $t('sections.personalData') }}
           </div>
 
           <div class="mt-4">
             <div class="grid grid-cols-5 gap-4">
               <div class="col-span-3">
-                <label class="block text-sm font-medium"
-                  >Nome Completo
-                  <span class="text-gray-400">Obrigatório</span></label
-                >
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.fullName') }}
+                  <span class="text-gray-400">{{ $t('labels.required') }}</span>
+                </label>
                 <InputText v-model="form.nome" class="w-full" />
               </div>
               <div class="col-span-2">
-                <label class="block text-sm font-medium"
-                  >Data de nascimento
-                  <span class="text-gray-400">Obrigatório</span></label
-                >
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.birthDate') }}
+                  <span class="text-gray-400">{{ $t('labels.required') }}</span>
+                </label>
                 <InputText v-model="form.dataNascimento" class="w-full" />
               </div>
               <div class="col-span-1">
-                <label class="block text-sm font-medium"
-                  >Cartão de cidadão</label
-                >
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.citizenCard') }}
+                </label>
                 <InputText v-model="form.cc" class="w-full" />
               </div>
               <div class="col-span-1">
-                <label class="block text-sm font-medium">Contribuinte</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.taxNumber') }}
+                </label>
                 <InputText v-model="form.contribuinte" class="w-full" />
               </div>
               <div class="col-span-1">
-                <label class="block text-sm font-medium"
-                  >Número de Utente</label
-                >
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.patientNumber') }}
+                </label>
                 <InputText v-model="form.nutente" class="w-full" />
               </div>
               <div class="col-span-1">
-                <label class="block text-sm font-medium">Sexo</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.gender') }}
+                </label>
                 <Dropdown
                   v-model="form.sexo"
                   :options="SEXOS"
                   class="w-full"
                   optionLabel="label"
                   optionValue="value"
-                  placeholder="Selecionar"
+                  :placeholder="$t('placeholders.select')"
                 />
               </div>
               <div class="col-span-1">
-                <label class="block text-sm font-medium">Processo</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.process') }}
+                </label>
                 <InputText v-model="form.processo" class="w-full" />
               </div>
               <div class="col-span-3">
-                <label class="block text-sm font-medium">Email</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.email') }}
+                </label>
                 <InputText v-model="form.email" class="w-full" />
               </div>
               <div class="col-span-2">
-                <label class="block text-sm font-medium">Telefone</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.phone') }}
+                </label>
                 <InputText v-model="form.telefone" class="w-full" />
               </div>
               <div class="col-span-2">
-                <label class="block text-sm font-medium">Morada</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.address') }}
+                </label>
                 <InputText v-model="form.morada" class="w-full" />
               </div>
               <div class="col-span-2">
-                <label class="block text-sm font-medium">Código-Postal</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.postalCode') }}
+                </label>
                 <InputText v-model="form.codPostal" class="w-full" />
               </div>
               <div class="col-span-1">
-                <label class="block text-sm font-medium">Localidade</label>
+                <label class="block text-sm font-medium">
+                  {{ $t('fields.city') }}
+                </label>
                 <InputText v-model="form.localidade" class="w-full" />
               </div>
             </div>
@@ -87,44 +103,46 @@
 
           <!-- Exam History -->
           <div class="bg-[#E3E5FF] rounded-xl px-4 py-2 font-semibold my-6">
-            Histórico de exames
+            {{ $t('sections.examHistory') }}
           </div>
           <div class="mt-6">
             <div class="flex gap-4 mb-2 text-sm text-primary">
-              Tipos de exame
-              <span class="cursor-pointer font-medium">Todos</span>
-              <span class="cursor-pointer text-blue-500 font-medium">ECG</span>
-              <span class="cursor-pointer font-medium">Holter</span>
+              {{ $t('labels.examTypes') }}
+              <span class="cursor-pointer font-medium">{{ $t('examTypes.all') }}</span>
+              <span class="cursor-pointer text-blue-500 font-medium">{{ $t('examTypes.ecg') }}</span>
+              <span class="cursor-pointer font-medium">{{ $t('examTypes.holter') }}</span>
             </div>
           </div>
         </TabPanel>
 
-        <!-- Add other tabs -->
-        <TabPanel header="Histórico" :disabled="true" />
-        <TabPanel header="Dados Clínicos" :disabled="true" />
-        <TabPanel header="Medicamentos" :disabled="true" />
-        <TabPanel header="Marcações" :disabled="true" />
-        <TabPanel header="Subsistema" :disabled="true" />
-        <TabPanel header="Contactos" :disabled="true" />
+        <!-- Other tabs -->
+        <TabPanel :header="$t('tabs.history')" :disabled="true" />
+        <TabPanel :header="$t('tabs.clinicalData')" :disabled="true" />
+        <TabPanel :header="$t('tabs.medications')" :disabled="true" />
+        <TabPanel :header="$t('tabs.appointments')" :disabled="true" />
+        <TabPanel :header="$t('tabs.subsystem')" :disabled="true" />
+        <TabPanel :header="$t('tabs.contacts')" :disabled="true" />
       </TabView>
     </div>
     <template #footer>
       <div class="flex justify-end space-x-4">
         <Button
-          label="Cancelar"
+          :label="$t('buttons.cancel')"
           class="p-button-text text-sm"
           @click="visible = false"
         />
         <Button
-          label="Gravar"
+          :label="$t('buttons.save')"
           icon="pi pi-save"
           class="text-sm"
           @click="save"
           iconPos="right"
-        /></div
-    ></template>
+        />
+      </div>
+    </template>
   </Dialog>
 </template>
+
 
 <script lang="ts" setup>
 import { ref } from 'vue';

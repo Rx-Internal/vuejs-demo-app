@@ -15,19 +15,19 @@
           @click="viewPatient"
           class="w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
         >
-          Ver utente
+          {{ $t('menu.viewPatient') }}
         </button>
         <button
           @click="editAppointment"
           class="w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
         >
-          Editar agendamento
+          {{ $t('menu.editAppointment') }}
         </button>
         <button
           @click="deleteAppointment"
           class="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-100"
         >
-          Eliminar agendamento
+          {{ $t('menu.deleteAppointment') }}
         </button>
       </div>
     </div>
@@ -35,33 +35,32 @@
   <Dialog
     class="rounded-4xl"
     v-model:visible="visibleDelete"
-    header="Eliminar agendamento"
+    :header="$t('dialog.deleteAppointmentHeader')"
     :style="{ width: '25rem', borderRadius: '36px' }"
   >
-    <span class="text-surface-500 dark:text-surface-400 block mb-8"
-      >Tem a certeza que pretende eliminar este agendamento? Esta ação é
-      irreversível.</span
-    >
+    <span class="text-surface-500 dark:text-surface-400 block mb-8">
+      {{ $t('dialog.deleteAppointmentConfirm') }}
+    </span>
     <div class="flex justify-end gap-2">
       <Button
         type="button"
-        label="Cancelar"
+        :label="$t('buttons.cancel')"
         variant="text"
         severity="secondary"
         @click="visibleDelete = false"
-      ></Button>
+      />
       <Button
         type="button"
-        label="Eliminar"
+        :label="$t('buttons.delete')"
         severity="danger"
         icon="pi pi-trash"
         @click="visibleDelete = false"
         icon-pos="right"
-      ></Button>
+      />
     </div>
   </Dialog>
-  <EditAppointment v-model:visible="EditAppointmentTab"></EditAppointment>
-  <Appointment v-model:visible="AppointmentTab"></Appointment>
+  <EditAppointment v-model:visible="EditAppointmentTab" />
+  <Appointment v-model:visible="AppointmentTab" />
 </template>
 
 <script lang="ts" setup>

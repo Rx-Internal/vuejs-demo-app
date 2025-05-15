@@ -11,11 +11,11 @@
             class="pi pi-calendar text-[#0C163D]"
             style="font-size: 1.3rem"
           ></i>
-          Agenda
+          {{ $t('agenda') }}
         </h2>
-        <label class="block text-xs font-extrabold mb-2 mt-12 text-[#0C163D]"
-          >Agenda</label
-        >
+        <label class="block text-xs font-extrabold mb-2 mt-12 text-[#0C163D]">{{
+          $t('agenda')
+        }}</label>
         <Dropdown
           v-model="selectedAgenda"
           :options="['ECG', 'ECO', 'Holter', 'MAPA', 'PE']"
@@ -24,7 +24,9 @@
       </div>
       <!-- Calendar -->
       <div class="mt-12">
-        <label class="block text-xs font-extrabold mb-3.5">Calendário</label>
+        <label class="block text-xs font-extrabold mb-3.5">{{
+          $t('calendar')
+        }}</label>
         <div
           class="flex justify-between items-center mb-3.5 text-sm font-semibold"
         >
@@ -49,7 +51,7 @@
           <span
             v-for="d in ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']"
             :key="d"
-            >{{ d }}</span
+            >{{ $t(d) }}</span
           >
         </div>
         <div
@@ -101,7 +103,9 @@
     <main class="flex-1 p-9 overflow-y-auto">
       <div class="flex justify-between items-center mb-9">
         <div class="flex justify-between align-middle items-center">
-          <Button variant="outlined" style="font-size: 0.5rem">Hoje</Button>
+          <Button variant="outlined" style="font-size: 0.5rem">{{
+            $t('today')
+          }}</Button>
           <div class="flex items-center gap-2">
             <Button icon="pi pi-chevron-left" text @click="previousDay" />
             <Button icon="pi pi-chevron-right" text @click="nextDay" />
@@ -120,7 +124,7 @@
           class="bg-gradient-to-r from-indigo-600 to-indigo-600 text-white font-semibold px-4 py-3 rounded-xl flex items-center gap-2 shadow-md hover:opacity-90"
           @click="visibleLeft = true"
         >
-          Agendar exame
+          {{ $t('scheduleExam') }}
           <i class="pi pi-plus-circle"></i>
         </button>
       </div>
@@ -134,22 +138,22 @@
         <div
           class="flex items-center gap-6 mb-4 px-4 py-2 bg-gray-100 rounded-[10px]"
         >
-          <span class="font-semibold">{{ hour }}</span>
+          <span class="font-semibold">{{ $t(hour) }}</span>
           <span class="text-xs"
-            >Total {{ totalAppointments(appointments) }}</span
+            >{{ $t('total') }} {{ totalAppointments(appointments) }}</span
           >
           <AppointmentStatusBadge
-            label="Agendado"
+            :label="$t('scheduled')"
             color="#6C57DB"
             :count="countAppointmentsByStatus(appointments, 'Admitido')"
           />
           <AppointmentStatusBadge
-            label="Realizado"
+            :label="$t('completed')"
             color="#FDCC12"
             :count="countAppointmentsByStatus(appointments, 'Realizado')"
           />
           <AppointmentStatusBadge
-            label="Validados"
+            :label="$t('validatedPlural')"
             color="#44CEA0"
             :count="countAppointmentsByStatus(appointments, 'Validado')"
           />
@@ -184,7 +188,7 @@
                 <div class="font-semibold">
                   {{ appt.name }}
                   <span class="text-xs text-gray-400 ml-2"
-                    >({{ appt.age }} anos)</span
+                    >({{ appt.age }} {{ $t('years') }})</span
                   >
                 </div>
               </div>
@@ -192,8 +196,8 @@
 
             <div class="flex items-center justify-between w-1/2 gap-4">
               <div class="text-xs text-gray-500 flex gap-4 mt-1">
-                <span>CC {{ appt.cc }}</span>
-                <span>SNS {{ appt.sns }}</span>
+                <span>{{ $t('citizenCardShort') }} {{ appt.cc }}</span>
+                <span>{{ $t('healthNumberShort') }} {{ appt.sns }}</span>
                 <span
                   ><i
                     class="pi pi-phone"
@@ -215,7 +219,7 @@
               }}</span>
               <div v-else class="px-4"></div>
 
-              <span class="text-xs text-gray-500">{{ appt.type }}</span>
+              <span class="text-xs text-gray-500">{{ $t('exam') }}</span>
               <span :value="appt.status" :class="statusColor(appt.status)">
                 <div
                   v-if="appt.status !== 'Admitido'"
@@ -226,7 +230,7 @@
                     class="h-1.5 w-1.5 rounded-4xl mr-2"
                   ></div>
                   <div>
-                    {{ appt.status }}
+                    {{ $t(appt.status) }}
                   </div>
                 </div>
                 <div
@@ -234,7 +238,7 @@
                   @click="AppointmentTab = true"
                   v-else
                 >
-                  Admitir
+                  {{ $t('admit') }}
                 </div>
               </span>
               <div></div>
@@ -259,7 +263,7 @@
             class="flex justify-center cursor-pointer text-xs items-center align-middle justify-between border border-white text-white hover:text-gray-700 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
             @click="visibleLeft = true"
           >
-            Agendar rapidamente
+            {{ $t('scheduleQuickly') }}
             <i
               class="pi pi-plus-circle px-2 font-bold text-xl"
               :style="{ fontSize: '12px', fontWeight: 'bolder' }"
@@ -320,7 +324,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { locale } = useI18n();
+
+function toggleLocale() {
+  locale.value = locale.value === 'en' ? 'pt' : 'en';
+}
+import { ref, computed, onMounted, watch } from 'vue';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt';
 import Dropdown from 'primevue/dropdown';
@@ -335,7 +346,7 @@ import AddPatient from '../components/AddPatient.vue';
 import { useAgendaStore } from '../stores/agenda';
 import AppointmentStatusBadge from '../components/AppointmentStatusBadge.vue';
 
-dayjs.locale('pt');
+dayjs.locale(locale.value);
 
 const agendaStore = useAgendaStore();
 
