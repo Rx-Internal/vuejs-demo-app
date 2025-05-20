@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-screen text-sm font-sans bg-white text-gray-800">
     <!-- Sidebar -->
-    <aside class="w-100 border-r border-[#ECEEF1] px-9 py-9 space-y-8">
+    <aside class="w-100 border-r border-[#ECEEF1] px-9 py-9 space-y-8 min-w-[420px]">
       <!-- Agenda Header -->
       <div>
         <h2
@@ -13,9 +13,10 @@
           ></i>
           {{ $t('agenda') }}
         </h2>
-        <label class="block text-xs font-extrabold mb-2 mt-12 text-primary-900">{{
-          $t('agenda')
-        }}</label>
+        <label
+          class="block text-xs font-extrabold mb-2 mt-12 text-primary-900"
+          >{{ $t('agenda') }}</label
+        >
         <BaseDropdown
           v-model="selectedAgenda"
           :options="[
@@ -23,7 +24,7 @@
             { label: 'ECO', value: 'ECO' },
             { label: 'Holter', value: 'Holter' },
             { label: 'MAPA', value: 'MAPA' },
-            { label: 'PE', value: 'PE' }
+            { label: 'PE', value: 'PE' },
           ]"
           optionLabel="label"
           optionValue="value"
@@ -44,11 +45,7 @@
             @click="prevMonth"
           />
           <span class="text-gray-700 text-xl">{{ formattedMonth }}</span>
-          <BaseButton
-            icon="pi pi-chevron-right"
-            outlined
-            @click="nextMonth"
-          />
+          <BaseButton icon="pi pi-chevron-right" outlined @click="nextMonth" />
         </div>
 
         <div
@@ -124,13 +121,13 @@
             </div>
           </div>
         </div>
-        <button
+        <Button
           class="bg-gradient-to-r from-indigo-600 to-indigo-600 text-white font-semibold px-4 py-3 rounded-xl flex items-center gap-2 shadow-md hover:opacity-90"
           @click="visibleLeft = true"
         >
           {{ $t('scheduleExam') }}
           <i class="pi pi-plus-circle"></i>
-        </button>
+        </Button>
       </div>
 
       <!-- Tags -->
@@ -264,7 +261,7 @@
           </div>
           <div
             v-if="!appt1.length"
-            class="flex justify-center cursor-pointer text-xs items-center align-middle justify-between border border-white text-white hover:text-gray-700 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
+            class="flex justify-center cursor-pointer text-xs items-center align-middle justify-center border border-white text-white hover:text-gray-700 hover:border-[#F4F5F7] hover:bg-[#F4F5F7] rounded-lg pl-1 pr-4 py-1.5 my-1"
             @click="visibleLeft = true"
           >
             {{ $t('scheduleQuickly') }}
@@ -277,46 +274,6 @@
       </div>
     </main>
     <!-- Add Task Dialog -->
-    <FormDialog
-      class="rounded-xl"
-      v-model="showForm"
-      title="Agendar novo exame"
-      saveLabel="Salvar"
-      cancelLabel="Cancelar"
-      @save="addTask"
-    >
-      <div class="space-y-3 text-sm">
-        <BaseInput v-model="newTask.name" class="w-full" placeholder="Nome" />
-        <BaseInput v-model="newTask.age" class="w-full" placeholder="Idade" />
-        <BaseInput
-          v-model="newTask.cc"
-          class="w-full"
-          placeholder="Cartão de Cidadão"
-        />
-        <BaseInput
-          v-model="newTask.sns"
-          class="w-full"
-          placeholder="Número SNS"
-        />
-        <BaseInput
-          v-model="newTask.phone"
-          class="w-full"
-          placeholder="Telefone"
-        />
-        <BaseDropdown
-          v-model="newTask.type"
-          :options="['ECG', 'Raio-X']"
-          class="w-full"
-          placeholder="Tipo"
-        />
-        <BaseDropdown
-          v-model="newTask.status"
-          :options="['Validado', 'Realizado', 'Admitido', 'Requisitado']"
-          class="w-full"
-          placeholder="Estado"
-        />
-      </div>
-    </FormDialog>
   </div>
 
   <SchedulingAppointment v-model:visible="visibleLeft"></SchedulingAppointment>
@@ -357,7 +314,6 @@ const ViewPatientTab = ref(false);
 const selectedAgenda = ref('ECG');
 const currentMonth = ref(dayjs());
 const selectedDate = ref(dayjs());
-const showForm = ref(false);
 
 const formattedMonth = computed(() => {
   const month = currentMonth.value.format('MMMM YYYY');
@@ -421,7 +377,6 @@ function addTask() {
     sns: newTask.value.sns,
     phone: newTask.value.phone,
   });
-  showForm.value = false;
   Object.assign(newTask.value, {
     name: '',
     age: 0,

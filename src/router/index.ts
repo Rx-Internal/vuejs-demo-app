@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Agenda',
     component: index,
     meta: {
-      title: 'Agenda',
+      title: 'Cardio On',
       requiresAuth: false,
     },
   },
@@ -25,7 +25,7 @@ const router = createRouter({
 // Navigation guard example
 router.beforeEach((to, from, next) => {
   // Set page title
-  document.title = `${to.meta.title} | Your App Name`;
+  document.title = `${to.meta.title}`;
   next();
 });
 

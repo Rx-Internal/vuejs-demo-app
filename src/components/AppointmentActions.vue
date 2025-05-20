@@ -11,24 +11,24 @@
       class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-xl bg-white shadow-2xl ring-1 ring-white ring-opacity-5 focus:outline-none"
     >
       <div class="py-1">
-        <button
+        <Button
           @click="viewPatient"
           class="w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
         >
           {{ $t('menu.viewPatient') }}
-        </button>
-        <button
+        </Button>
+        <Button
           @click="editAppointment"
           class="w-full px-4 py-2 text-left text-sm text-gray-800 hover:bg-gray-100"
         >
           {{ $t('menu.editAppointment') }}
-        </button>
-        <button
+        </Button>
+        <Button
           @click="deleteAppointment"
           class="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-red-100"
         >
           {{ $t('menu.deleteAppointment') }}
-        </button>
+        </Button>
       </div>
     </div>
   </div>
