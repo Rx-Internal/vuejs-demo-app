@@ -5,21 +5,28 @@
       <!-- Agenda Header -->
       <div>
         <h2
-          class="text-2xl font-extrabold flex items-center gap-2 mb-4 text-[#0C163D]"
+          class="text-2xl font-extrabold flex items-center gap-2 mb-4 text-primary-900"
         >
           <i
-            class="pi pi-calendar text-[#0C163D]"
+            class="pi pi-calendar text-primary-900"
             style="font-size: 1.3rem"
           ></i>
           {{ $t('agenda') }}
         </h2>
-        <label class="block text-xs font-extrabold mb-2 mt-12 text-[#0C163D]">{{
+        <label class="block text-xs font-extrabold mb-2 mt-12 text-primary-900">{{
           $t('agenda')
         }}</label>
-        <Dropdown
+        <BaseDropdown
           v-model="selectedAgenda"
-          :options="['ECG', 'ECO', 'Holter', 'MAPA', 'PE']"
-          class="w-full"
+          :options="[
+            { label: 'ECG', value: 'ECG' },
+            { label: 'ECO', value: 'ECO' },
+            { label: 'Holter', value: 'Holter' },
+            { label: 'MAPA', value: 'MAPA' },
+            { label: 'PE', value: 'PE' }
+          ]"
+          optionLabel="label"
+          optionValue="value"
         />
       </div>
       <!-- Calendar -->
@@ -30,17 +37,16 @@
         <div
           class="flex justify-between items-center mb-3.5 text-sm font-semibold"
         >
-          <Button
+          <BaseButton
             icon="pi pi-chevron-left"
-            variant="outlined"
+            outlined
             :pt="{ icon: { class: 'text-xl ' } }"
             @click="prevMonth"
           />
           <span class="text-gray-700 text-xl">{{ formattedMonth }}</span>
-          <Button
+          <BaseButton
             icon="pi pi-chevron-right"
-            variant="outlined"
-            style="font-size: 0.5rem"
+            outlined
             @click="nextMonth"
           />
         </div>
@@ -103,12 +109,10 @@
     <main class="flex-1 p-9 overflow-y-auto">
       <div class="flex justify-between items-center mb-9">
         <div class="flex justify-between align-middle items-center">
-          <Button variant="outlined" style="font-size: 0.5rem">{{
-            $t('today')
-          }}</Button>
+          <BaseButton outlined size="small" :label="$t('today')"></BaseButton>
           <div class="flex items-center gap-2">
-            <Button icon="pi pi-chevron-left" text @click="previousDay" />
-            <Button icon="pi pi-chevron-right" text @click="nextDay" />
+            <BaseButton icon="pi pi-chevron-left" text @click="previousDay" />
+            <BaseButton icon="pi pi-chevron-right" text @click="nextDay" />
 
             <div>
               <h2 class="text-lg font-semibold">
@@ -246,12 +250,12 @@
                 v-if="appt.status === 'Admitido'"
               ></AppointmentActions>
               <i
-                class="pi pi-print text-xs text-[#375FD9]"
+                class="pi pi-print text-xs text-primary-600"
                 :style="{ fontSize: '12px', fontWeight: 'bolder' }"
                 v-else-if="appt.status === 'Validado'"
               ></i>
               <i
-                class="pi pi-user text-xs text-[#375FD9]"
+                class="pi pi-user text-xs text-primary-600"
                 :style="{ fontSize: '12px', fontWeight: 'bolder' }"
                 v-else-if="appt.pin"
               ></i>
@@ -273,79 +277,70 @@
       </div>
     </main>
     <!-- Add Task Dialog -->
-    <Dialog
-      v-model:visible="showForm"
-      header="Agendar novo exame"
-      :modal="true"
-      :style="{ width: '30rem' }"
+    <FormDialog
+      class="rounded-xl"
+      v-model="showForm"
+      title="Agendar novo exame"
+      saveLabel="Salvar"
+      cancelLabel="Cancelar"
+      @save="addTask"
     >
       <div class="space-y-3 text-sm">
-        <InputText v-model="newTask.name" class="w-full" placeholder="Nome" />
-        <InputText v-model="newTask.age" class="w-full" placeholder="Idade" />
-        <InputText
+        <BaseInput v-model="newTask.name" class="w-full" placeholder="Nome" />
+        <BaseInput v-model="newTask.age" class="w-full" placeholder="Idade" />
+        <BaseInput
           v-model="newTask.cc"
           class="w-full"
           placeholder="Cartão de Cidadão"
         />
-        <InputText
+        <BaseInput
           v-model="newTask.sns"
           class="w-full"
           placeholder="Número SNS"
         />
-        <InputText
+        <BaseInput
           v-model="newTask.phone"
           class="w-full"
           placeholder="Telefone"
         />
-        <Dropdown
+        <BaseDropdown
           v-model="newTask.type"
           :options="['ECG', 'Raio-X']"
           class="w-full"
           placeholder="Tipo"
         />
-        <Dropdown
+        <BaseDropdown
           v-model="newTask.status"
           :options="['Validado', 'Realizado', 'Admitido', 'Requisitado']"
           class="w-full"
           placeholder="Estado"
         />
       </div>
-      <template #footer>
-        <Button label="Cancelar" text @click="showForm = false" />
-        <Button label="Salvar" @click="addTask" />
-      </template>
-    </Dialog>
+    </FormDialog>
   </div>
 
   <SchedulingAppointment v-model:visible="visibleLeft"></SchedulingAppointment>
   <ViewPatient v-model:visible="ViewPatientTab"></ViewPatient>
   <Appointment v-model:visible="AppointmentTab"></Appointment>
-  <AddPatient v-model:visible="AddPatientTab"></AddPatient>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-
-const { locale } = useI18n();
-
-function toggleLocale() {
-  locale.value = locale.value === 'en' ? 'pt' : 'en';
-}
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt';
-import Dropdown from 'primevue/dropdown';
-import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
-import InputText from 'primevue/inputtext';
+import FormDialog from '../components/common/FormDialog.vue';
+import BaseInput from '../components/common/BaseInput.vue';
+import BaseDropdown from '../components/common/BaseDropdown.vue';
 import SchedulingAppointment from '../components/SchedulingAppointment.vue';
 import ViewPatient from '../components/ViewPatient.vue';
 import AppointmentActions from '../components/AppointmentActions.vue';
 import Appointment from '../components/Appointment.vue';
-import AddPatient from '../components/AddPatient.vue';
 import { useAgendaStore } from '../stores/agenda';
 import AppointmentStatusBadge from '../components/AppointmentStatusBadge.vue';
+import BaseButton from '../components/common/BaseButton.vue';
 
+const { locale } = useI18n();
 dayjs.locale(locale.value);
 
 const agendaStore = useAgendaStore();
@@ -358,7 +353,6 @@ onMounted(async () => {
 const visibleLeft = ref(false);
 const AppointmentTab = ref(false);
 const ViewPatientTab = ref(false);
-const AddPatientTab = ref(false);
 
 const selectedAgenda = ref('ECG');
 const currentMonth = ref(dayjs());

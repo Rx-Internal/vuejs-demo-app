@@ -3,18 +3,33 @@ import DefaultLayout from './layouts/DefaultLayout.vue';
 </script>
 
 <template>
-  <DefaultLayout></DefaultLayout>
+  <DefaultLayout />
 </template>
 
 <style>
-.p-button-outlined {
-  padding: 7px !important; /* override default padding */
-  font-size: 14px !important; /* text-sm */
-  border-color: #eceef1 !important;
-  height: auto;
-  color: #536576 !important;
+/* PrimeVue component overrides using Tailwind classes */
+.p-button {
+  @apply transition-colors duration-200;
 }
+
+.p-button-outlined {
+  @apply border border-gray-200 text-gray-600 hover:bg-gray-100;
+}
+
 .p-button .pi {
-  font-size: 0.875rem; /* Equivalent to Tailwind text-sm */
+  @apply text-sm;
+}
+
+/* Global scrollbar styles using Tailwind */
+::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
 }
 </style>

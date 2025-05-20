@@ -1,10 +1,12 @@
 <template>
   <div class="flex min-h-screen bg-gray-50 text-gray-800">
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div class="flex flex-col flex-1">
       <!-- Page Content -->
-      <main class="flex-1 bg-white overflow-y-auto">
-        <router-view />
+      <main class="flex-1 bg-surface-card">
+        <div class="">
+          <router-view />
+        </div>
       </main>
     </div>
   </div>
@@ -17,22 +19,5 @@ const sidebarVisible = ref(false);
 </script>
 
 <style scoped>
-/* Optional: Scrollbar styles */
-main::-webkit-scrollbar {
-  width: 6px;
-}
-main::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-
-/* Smooth transition for sidebar */
-@keyframes slideIn {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
+/* No additional styles needed - using Tailwind classes */
 </style>

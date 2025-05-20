@@ -1,25 +1,206 @@
 @import 'primeicons/primeicons.css';
-@import 'tailwindcss';
-/* @import 'tailwindcss-primeui' */
-
-button.p-button.p-component.p-button-icon-only.p-button-outlined {
-  padding: 0.1 0.5rem !important;
-  /* override default padding */
-  font-size: 0.875rem;
-  /* text-sm */
-  height: auto;
-}
-
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
 
+/* PrimeVue Theme Integration */
+:root {
+  --surface-ground: theme('colors.gray.50');
+  --surface-section: theme('colors.gray.100');
+  --surface-card: theme('colors.white');
+  --surface-overlay: theme('colors.gray.200');
+  --surface-border: theme('colors.gray.300');
+  --surface-hover: theme('colors.gray.400');
+  
+  --text-color: theme('colors.gray.900');
+  --text-color-secondary: theme('colors.gray.600');
+  
+  --primary-color: theme('colors.primary.500');
+  --primary-color-text: theme('colors.white');
+  
+  --font-family: theme('fontFamily.sans');
+  --font-size: theme('fontSize.base');
+  --font-weight: theme('fontWeight.normal');
+  --line-height: theme('lineHeight.normal');
+}
+
+/* Base styles */
 body {
+  @apply font-sans text-base text-gray-900 bg-gray-50;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+}
+
+/* PrimeVue Component Base Styles */
+.p-component {
   @apply font-sans;
 }
 
-.p-component {
-  font-family: 'Poppins', sans-serif !important;
+.p-button {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-md transition-colors duration-200;
 }
 
-*:not(.pi):not([class*='pi-']):not(.p-icon) {
-  font-family: 'Poppins', sans-serif !important;
+.p-inputtext {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+}
+
+.p-card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200;
+}
+
+.p-datatable {
+  @apply w-full;
+}
+
+.p-datatable .p-datatable-header {
+  @apply bg-gray-100 p-4 border-b border-gray-200;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  @apply bg-gray-100 p-3 text-left font-semibold text-gray-700;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  @apply p-3 border-b border-gray-200;
+}
+
+/* Utility Classes */
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity duration-300;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
+
+/* Base Styles */
+@layer base {
+  :root {
+    --spacing-unit: 0.25rem;
+    --primary-color: #007AFF;
+    --accent-color: #6C57DB;
+    --danger-color: #375FD9;
+  }
+
+  body {
+    @apply font-sans bg-gray-50 text-gray-900 antialiased;
+  }
+}
+
+/* Component Layer */
+@layer components {
+  /* PrimeVue Base Styles */
+  .p-component {
+    @apply font-sans transition-all duration-200;
+  }
+
+  /* Button Styles */
+  .p-button {
+    @apply shadow-sm transition-all duration-200 focus:ring-2 focus:ring-primary-200 focus:ring-offset-2;
+  }
+
+  .p-button.p-button-outlined {
+    @apply border-2 hover:bg-primary-50;
+  }
+
+  .p-button.p-button-text {
+    @apply shadow-none hover:bg-primary-50;
+  }
+
+  /* Input Styles */
+  .p-inputtext {
+    @apply transition-all duration-200 border-gray-300 focus:ring-2 focus:ring-primary-200 focus:border-primary-300;
+  }
+
+  .p-inputtext:hover {
+    @apply border-primary-400;
+  }
+
+  /* Card Styles */
+  .p-card {
+    @apply shadow-md rounded-lg border border-gray-100;
+  }
+
+  .p-card .p-card-title {
+    @apply text-xl font-semibold mb-4;
+  }
+
+  /* Dialog Styles */
+  .p-dialog {
+    @apply rounded-lg shadow-xl;
+  }
+
+  .p-dialog-header {
+    @apply bg-gray-50 border-b border-gray-100 p-4;
+  }
+
+  /* Table Styles */
+  .p-datatable {
+    @apply rounded-lg border border-gray-200 overflow-hidden;
+  }
+
+  .p-datatable .p-datatable-thead > tr > th {
+    @apply bg-gray-50 font-semibold text-gray-700 p-4 border-b border-gray-200;
+  }
+
+  .p-datatable .p-datatable-tbody > tr > td {
+    @apply p-4 border-b border-gray-100;
+  }
+
+  .p-datatable .p-datatable-tbody > tr:hover {
+    @apply bg-gray-50;
+  }
+
+  /* Form Layout */
+  .p-field {
+    @apply mb-4;
+  }
+
+  .p-field label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+
+  /* Toast Styles */
+  .p-toast {
+    @apply font-sans;
+  }
+
+  .p-toast-message {
+    @apply rounded-lg shadow-lg border-0;
+  }
+
+  .p-toast-message-success {
+    @apply bg-green-50 text-green-800;
+  }
+
+  .p-toast-message-error {
+    @apply bg-red-50 text-red-800;
+  }
+
+  .p-toast-message-info {
+    @apply bg-blue-50 text-blue-800;
+  }
+
+  .p-toast-message-warn {
+    @apply bg-yellow-50 text-yellow-800;
+  }
+}
+
+/* Utility Layer */
+@layer utilities {
+  .text-primary {
+    color: var(--primary-color);
+  }
+
+  .text-accent {
+    color: var(--accent-color);
+  }
+
+  .text-danger {
+    color: var(--danger-color);
+  }
 }

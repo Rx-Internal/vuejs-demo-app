@@ -1,7 +1,7 @@
 <template>
   <div class="relative inline-block text-left">
     <i
-      class="pi pi-ellipsis-v text-[#375FD9] cursor-pointer mt-1 font-extrabold"
+      class="pi pi-ellipsis-v text-primary-600 cursor-pointer mt-1 font-extrabold"
       :style="{ fontSize: '12px', fontWeight: 'bolder' }"
       text
       @click="toggleMenu"
@@ -42,20 +42,20 @@
       {{ $t('dialog.deleteAppointmentConfirm') }}
     </span>
     <div class="flex justify-end gap-2">
-      <Button
+      <BaseButton
         type="button"
         :label="$t('buttons.cancel')"
-        variant="text"
-        severity="secondary"
+        text
+        variant="secondary"
         @click="visibleDelete = false"
       />
-      <Button
+      <BaseButton
         type="button"
         :label="$t('buttons.delete')"
-        severity="danger"
+        variant="danger"
         icon="pi pi-trash"
+        iconPos="right"
         @click="visibleDelete = false"
-        icon-pos="right"
       />
     </div>
   </Dialog>
@@ -65,10 +65,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import EditAppointment from './EditAppointment.vue';
 import Appointment from './Appointment.vue';
+import BaseButton from '../components/common/BaseButton.vue';
 
 const menuVisible = ref(false);
 const toggleMenu = () => {

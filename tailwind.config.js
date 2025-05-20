@@ -1,18 +1,110 @@
-import PrimeUI from 'tailwindcss-primeui';
-
-module.exports = {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  safelist: [
-    {
-      pattern: /^(pi|pi-[\w-]+)$/,
-    },
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
+      colors: {
+        surface: {
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+        },
+        primary: {
+          50: '#F1FAFF',
+          100: '#F9FBFC',
+          200: '#F9FBF9',
+          300: '#B9F0EB',
+          400: '#49E0D3',
+          500: '#007AFF',
+          600: '#375FD9',
+          700: '#1F3F72',
+          800: '#132742',
+          900: '#0C163D',
+        },
+        accent: {
+          100: '#6C57DB',
+          200: '#FEC37A',
+          300: '#FFE6C7',
+          400: '#EAFBF9',
+          500: '#E2E5FF',
+          600: '#DDE0E5',
+          700: '#FFF8EE',
+          800: '#F9FBFC',
+        },
+        danger: {
+          50: '#FEF2F2',
+          100: '#FEE2E2',
+          200: '#FECACA',
+          300: '#FCA5A5',
+          400: '#F87171',
+          500: '#EF4444',
+          600: '#DC2626',
+          700: '#B91C1C',
+          800: '#991B1B',
+          900: '#7F1D1D',
+        },
+        success: {
+          50: '#F0FDF4',
+          100: '#DCFCE7',
+          200: '#BBF7D0',
+          300: '#86EFAC',
+          400: '#4ADE80',
+          500: '#22C55E',
+          600: '#16A34A',
+          700: '#15803D',
+          800: '#166534',
+          900: '#14532D',
+        },
+        warning: {
+          50: '#FFFBEB',
+          100: '#FEF3C7',
+          200: '#FDE68A',
+          300: '#FCD34D',
+          400: '#FBBF24',
+          500: '#F59E0B',
+          600: '#D97706',
+          700: '#B45309',
+          800: '#92400E',
+          900: '#78350F',
+        },
+      },
       fontFamily: {
         sans: ['Poppins', 'ui-sans-serif', 'system-ui'],
       },
+      spacing: {
+        '4.5': '1.125rem',
+        '5.5': '1.375rem',
+        '6.5': '1.625rem',
+      },
+      borderRadius: {
+        'sm': '0.125rem',
+        DEFAULT: '0.25rem',
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'xl': '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+      },
+      boxShadow: {
+        'inner-sm': 'inset 0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        'inner-md': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
+        'inner-lg': 'inset 0 4px 6px -1px rgb(0 0 0 / 0.1)',
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+        'bounce-slow': 'bounce 3s infinite',
+      },
     },
   },
-  plugins: [PrimeUI],
+  plugins: [],
 };

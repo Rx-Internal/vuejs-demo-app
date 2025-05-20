@@ -1,15 +1,16 @@
 <template>
-  <Drawer
-    class="!w-auto md:!w-auto lg:!w-auto w-full max-w-5xl bg-white p-6 rounded-xl shadow-md"
-    :header="$t('drawerTitle')"
+  <FormDialog
+  class="!w-auto md:!w-auto lg:!w-auto w-full max-w-5xl bg-white p-6 rounded-xl shadow-md"
+    v-model="visible"
+    :title="$t('drawerTitle')"
     position="right"
   >
     <!-- Prescrição Section -->
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-">
       <div class="flex flex-wrap items-end gap-4">
         <div class="flex flex-col flex-1 min-w-[200px]">
           <div class="flex justify-between items-center mb-1">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('prescriberDoctor') }}</label>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('prescriberDoctor') }}</label>
             <Tag
               severity="secondary"
               :value="$t('optional')"
@@ -17,21 +18,21 @@
               :style="{ fontSize: '12px', fontWeight: 'normal' }"
             ></Tag>
           </div>
-          <Dropdown
+          <BaseDropdown
             v-model="form.medicoPrescritor"
             :options="MEDICOS"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
-        <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('prescriptionId') }}</label>
-          <InputText v-model="form.idPrescricao" class="w-full" />
+        <div class="flex flex-col flex-1 min-w-[200px] mb-4">
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('prescriptionId') }}</label>
+          <InputText v-model="form.idPrescricao" class="p-inputtext w-full" />
         </div>
-        <div class="flex flex-col flex-1 min-w-[200px]">
+        <div class="flex flex-col flex-1 min-w-[200px] mb-4">
           <div class="flex justify-between items-center mb-1">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('uploadPrescription') }}</label>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('uploadPrescription') }}</label>
             <Tag
               severity="secondary"
               :value="$t('optional')"
@@ -47,94 +48,98 @@
             :maxFileSize="1000000"
             :auto="true"
             :chooseLabel="$t('scheduling.chooseFile')"
-            class="w-full p-button-outlined"
+            class="p-button p-button-outlined w-full"
           />
         </div>
-        <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('kioskPassword') }}</label>
-          <InputText v-model="form.senhaKiosk" class="w-full" />
+        <div class="flex flex-col flex-1 min-w-[200px] mb-4">
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('kioskPassword') }}</label>
+          <InputText v-model="form.senhaKiosk" class="p-inputtext w-full" />
         </div>
       </div>
     </div>
 
     <!-- Exames Section -->
-    <div class="flex flex-col gap-4 mt-4">
+    <div class="flex flex-col gap-4 mt-6">
       <div class="bg-[#E3E5FF] rounded-xl px-4 py-2 font-semibold">{{ $t('exams') }}</div>
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('hour') }}</label>
-          <Dropdown
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('hour') }}</label>
+          <BaseDropdown
             v-model="form.hora"
             :options="HORAS"
             optionLabel="label"
-            class="w-full"
-            variant="filled"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
-        <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('date') }}</label>
+        <div class="flex flex-col flex-1 min-w-[150px] mb-4">
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('date') }}</label>
           <Calendar v-model="form.data" dateFormat="dd/mm/yy" class="w-full" />
         </div>
-        <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('exam') }}</label>
-          <Dropdown
+        <div class="flex flex-col flex-1 min-w-[150px] ">
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('exam') }}</label>
+          <BaseDropdown
             v-model="form.exame"
             :options="EXAMES"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('consultingDoctor') }}</label>
-          <Dropdown
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('consultingDoctor') }}</label>
+          <BaseDropdown
             v-model="form.medicoConsulta"
             :options="medicosConsulta"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
-        <ToggleSwitch v-model="checked1" />{{ $t('admit') }}
+        <div class="flex items-center gap-2 mb-6">
+          <ToggleSwitch v-model="checked1" />
+          <span class="text-sm text-gray-700">{{ $t('admit') }}</span>
+        </div>
       </div>
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('hour') }}</label>
-          <Dropdown
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('hour') }}</label>
+          <BaseDropdown
             v-model="form.hora1"
             :options="HORAS"
             optionLabel="label"
-            class="w-full"
-            variant="filled"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
-        <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('date') }}</label>
+        <div class="flex flex-col flex-1 min-w-[150px] mb-4">
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('date') }}</label>
           <Calendar v-model="form.data1" dateFormat="dd/mm/yy" class="w-full" />
         </div>
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('exam') }}</label>
-          <Dropdown
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('exam') }}</label>
+          <BaseDropdown
             v-model="form.exame"
             :options="EXAMES"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">{{ $t('consultingDoctor') }}</label>
-          <Dropdown
+          <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('consultingDoctor') }}</label>
+          <BaseDropdown
             v-model="form.medicoConsulta"
             :options="medicosConsulta"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
+            class="p-dropdown"
           />
         </div>
-        <ToggleSwitch v-model="checked2" />{{ $t('admit') }}
+        <div class="flex items-center gap-2 mb-6">
+          <ToggleSwitch v-model="checked2" />
+          <span class="text-sm text-gray-700">{{ $t('admit') }}</span>
+        </div>
       </div>
     </div>
 
@@ -142,66 +147,67 @@
     <div class="flex flex-col gap-4 mt-6">
       <div class="bg-[#E3E5FF] rounded-xl px-4 font-semibold flex justify-between items-center">
         <span>{{ $t('patient') }}</span>
-        <Button
+        <BaseButton
           :label="$t('editPatientData')"
           link
           icon="pi pi-user"
-          class="text-blue-500 py-0"
+          variant="primary"
+          class="py-0"
           @click="IsViewPatient = !IsViewPatient"
         />
       </div>
     </div>
     <div>
-      <div class="my-4 text-sm">
-        <h2 class="font-bold my-6 text-base">{{ $t('personalData') }}</h2>
+      <div class="my-4">
+        <h2 class="text-lg font-semibold text-primary-500 my-6">{{ $t('personalData') }}</h2>
         <div class="grid grid-cols-5 gap-6">
           <div class="col-span-3">
-            <label class="font-medium">{{ $t('fullName') }}</label>
-            <p>Jorge Manuel da Guedes Campos</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('fullName') }}</label>
+            <p class="text-gray-700">Jorge Manuel da Guedes Campos</p>
           </div>
           <div class="col-span-2">
-            <label class="font-medium">{{ $t('birthDate') }}</label>
-            <p>16-08-1967</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('birthDate') }}</label>
+            <p class="text-gray-700">16-08-1967</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('citizenCard') }}</label>
-            <p>12345678</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('citizenCard') }}</label>
+            <p class="text-gray-700">12345678</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('taxNumber') }}</label>
-            <p>987654321</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('taxNumber') }}</label>
+            <p class="text-gray-700">987654321</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('healthNumber') }}</label>
-            <p>987654321</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('healthNumber') }}</label>
+            <p class="text-gray-700">987654321</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('gender') }}</label>
-            <p>{{ $t('male') }}</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('gender') }}</label>
+            <p class="text-gray-700">{{ $t('male') }}</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('process') }}</label>
-            <p>-</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('process') }}</label>
+            <p class="text-gray-700">-</p>
           </div>
           <div class="col-span-3">
-            <label class="font-medium">{{ $t('email') }}</label>
-            <p>email@example.com</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('email') }}</label>
+            <p class="text-gray-700">email@example.com</p>
           </div>
           <div class="col-span-2">
-            <label class="font-medium">{{ $t('phone') }}</label>
-            <p>912 345 678</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('phone') }}</label>
+            <p class="text-gray-700">912 345 678</p>
           </div>
           <div class="col-span-2">
-            <label class="font-medium">{{ $t('address') }}</label>
-            <p>Rua do Centro</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('address') }}</label>
+            <p class="text-gray-700">Rua do Centro</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('postalCode') }}</label>
-            <p>1000-000</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('postalCode') }}</label>
+            <p class="text-gray-700">1000-000</p>
           </div>
           <div class="col-span-1">
-            <label class="font-medium">{{ $t('locality') }}</label>
-            <p>Lisboa</p>
+            <label class="text-sm font-medium text-primary-900 mb-1">{{ $t('locality') }}</label>
+            <p class="text-gray-700">Lisboa</p>
           </div>
         </div>
       </div>
@@ -251,28 +257,28 @@
           <label for="confirm" class="ml-2">{{ $t('confirmPatientData') }}</label>
         </div>
         <div class="flex gap-2">
-          <Button :label="$t('cancel')" link class="text-blue-500" />
-          <Button :label="$t('admitAction')" class="text-sm" @click="save" />
+          <BaseButton :label="$t('cancel')" text class="text-blue-500" />
+          <BaseButton :label="$t('admitAction')" size="small" @click="save" />
         </div>
       </div>
     </template>
     <ViewPatient v-model:visible="IsViewPatient"></ViewPatient>
-  </Drawer>
+  </FormDialog>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';
 import FileUpload from 'primevue/fileupload';
-import Drawer from 'primevue/drawer';
+import FormDialog from './common/FormDialog.vue';
 import ToggleSwitch from 'primevue/toggleswitch';
 import { MEDICOS, HORAS, EXAMES } from '../constants/common';
 import Tag from 'primevue/tag';
 import ViewPatient from './ViewPatient.vue';
+import BaseButton from '../components/common/BaseButton.vue';
+import BaseDropdown from '../components/common/BaseDropdown.vue';
 
 const form = ref({
   medicoPrescritor: null,
@@ -309,5 +315,21 @@ const medicosConsulta = [{ label: 'Automático', value: 'auto' }];
 .p-button-link {
   background-color: #ffffff00;
   color: #4f39f6;
+}
+
+:deep(.p-calendar) {
+  @apply w-full;
+}
+
+:deep(.p-calendar input) {
+  @apply w-full;
+}
+
+:deep(.p-fileupload-buttonbar) {
+  @apply p-0;
+}
+
+:deep(.p-fileupload-content) {
+  @apply hidden;
 }
 </style>

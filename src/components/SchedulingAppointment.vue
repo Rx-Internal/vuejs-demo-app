@@ -9,7 +9,7 @@
       <div class="flex flex-wrap items-end gap-4">
         <div class="flex flex-col flex-1 min-w-[200px]">
           <div class="flex justify-between items-center mb-1">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">
+            <label class="text-sm font-medium text-primary-900 mb-1">
               {{ $t('prescriberDoctor') }}
             </label>
             <Tag
@@ -19,23 +19,22 @@
               :style="{ fontSize: '12px', fontWeight: 'normal' }"
             ></Tag>
           </div>
-          <Dropdown
+          <BaseDropdown
             v-model="form.medicoPrescritor"
             :options="MEDICOS"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">
+          <!-- <label class="text-sm font-medium text-primary-900 mb-1">
             {{ $t('prescriptionId') }}
-          </label>
-          <InputText v-model="form.idPrescricao" class="w-full" />
+          </label> -->
+          <BaseInput :label="$t('prescriptionId')" v-model="form.idPrescricao" />
         </div>
-        <div class="flex flex-col flex-1 min-w-[200px]">
+        <div class="flex flex-col flex-1 min-w-[200px] mb-4">
           <div class="flex justify-between items-center mb-1">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">
+            <label class="text-sm font-medium text-primary-900 mb-1">
               {{ $t('uploadPrescription') }}
             </label>
             <Tag
@@ -57,10 +56,10 @@
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">
+          <!-- <label class="text-sm font-medium text-primary-900 mb-1">
             {{ $t('kioskPassword') }}
-          </label>
-          <InputText v-model="form.senhaKiosk" class="w-full" />
+          </label> -->
+          <BaseInput :label="$t('kioskPassword')" v-model="form.senhaKiosk" />
         </div>
       </div>
     </div>
@@ -72,39 +71,36 @@
       </div>
       <div class="flex flex-wrap gap-4 items-end">
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">
+          <label class="text-sm font-medium text-primary-900 mb-1">
             {{ $t('hour') }}
           </label>
-          <Dropdown
+          <BaseDropdown
             v-model="form.hora"
             :options="HORAS"
             optionLabel="label"
-            class="w-full"
-            variant="filled"
             optionValue="value"
           />
         </div>
-        <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">
+        <div class="flex flex-col flex-1 min-w-[150px] mb-4">
+          <label class="text-sm font-medium text-primary-900 mb-1">
             {{ $t('date') }}
           </label>
           <Calendar v-model="form.data" dateFormat="dd/mm/yy" class="w-full" />
         </div>
         <div class="flex flex-col flex-1 min-w-[150px]">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">
+          <label class="text-sm font-medium text-primary-900 mb-1">
             {{ $t('exam') }}
           </label>
-          <Dropdown
+          <BaseDropdown
             v-model="form.exame"
             :options="EXAMES"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
           />
         </div>
         <div class="flex flex-col flex-1 min-w-[200px]">
           <div class="flex justify-between items-center mb-1">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">
+            <label class="text-sm font-medium text-primary-900 mb-1">
               {{ $t('consultingDoctor') }}
             </label>
             <Tag
@@ -114,20 +110,19 @@
               :style="{ fontSize: '12px', fontWeight: 'normal' }"
             ></Tag>
           </div>
-          <Dropdown
+          <BaseDropdown
             v-model="form.medicoConsulta"
             :options="medicosConsulta"
             optionLabel="label"
-            class="w-full"
             optionValue="value"
           />
         </div>
       </div>
       <div>
-        <Button
-          link
+        <BaseButton
           :label="$t('addExam')"
           icon="pi pi-plus-circle"
+          text
           class="text-[#4f39f6] px-4 py-2 text-sm"
         />
       </div>
@@ -139,7 +134,7 @@
         class="bg-[#E3E5FF] rounded-xl px-4 font-semibold flex justify-between items-center"
       >
         <span>{{ $t('patient') }}</span>
-        <Button
+        <BaseButton
           v-if="isUtente"
           :label="$t('readCitizenCard')"
           link
@@ -148,7 +143,7 @@
           style="font-weight: bolder"
           @click="isUtente = !isUtente"
         />
-        <Button
+        <BaseButton
           v-else
           :label="$t('readCitizenCard')"
           link
@@ -160,36 +155,37 @@
       </div>
       <div v-if="isUtente" class="">
         <div class="flex flex-col mt-4">
-          <label class="text-sm font-medium text-[#0C163D] mb-1">
+          <!-- <label class="text-sm font-medium text-primary-900 mb-1">
             {{ $t('fullName') }}
-          </label>
-          <InputText v-model="form.nomeCompleto" class="w-full" />
+          </label> -->
+          <BaseInput :label="$t('fullName')" v-model="form.nomeCompleto" />
         </div>
         <div class="flex flex-wrap gap-4 mt-4">
           <div class="flex flex-col flex-1 min-w-[150px]">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">
+            <!-- <label class="text-sm font-medium text-primary-900 mb-1">
               {{ $t('birthDate') }}
-            </label>
-            <InputText v-model="form.dataNascimento" class="w-full" />
+            </label> -->
+            <BaseInput :label="$t('birthDate')" v-model="form.dataNascimento" />
           </div>
           <div class="flex flex-col flex-1 min-w-[150px]">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">
+            <!-- <label class="text-sm font-medium text-primary-900 mb-1">
               {{ $t('citizenCard') }}
-            </label>
-            <InputText v-model="form.cartaoCidadao" class="w-full" />
+            </label> -->
+            <BaseInput :label="$t('citizenCard')" v-model="form.cartaoCidadao" />
           </div>
           <div class="flex flex-col flex-1 min-w-[150px]">
-            <label class="text-sm font-medium text-[#0C163D] mb-1">
+            <!-- <label class="text-sm font-medium text-primary-900 mb-1">
               {{ $t('phone') }}
-            </label>
-            <InputText v-model="form.telefone" class="w-full" />
+            </label> -->
+            <BaseInput :label="$t('phone')" v-model="form.telefone" />
           </div>
         </div>
         <div class="flex items-end">
-          <Button
+          <BaseButton
             :label="$t('scheduling.searchPatient')"
             icon="pi pi-search"
-            class="bg-primary text-white px-4 py-2 rounded ml-auto mt-4"
+            variant="primary"
+            class="px-4 py-2 rounded ml-auto mt-4"
             iconPos="right"
           />
         </div>
@@ -283,12 +279,12 @@
           }}</label>
         </div>
         <div class="flex gap-2">
-          <Button :label="$t('cancel')" link class="text-[#4f39f6]" />
-          <Button :label="$t('scheduling.schedule')" class="bg-blue-500 text-white" />
-          <Button
+          <BaseButton :label="$t('cancel')" text class="text-[#4f39f6]" />
+          <BaseButton :label="$t('scheduling.schedule')" variant="primary" />
+          <BaseButton
             :label="$t('scheduling.scheduleAndAdmit')"
             disabled
-            class="bg-gray-400 text-white"
+            variant="secondary"
           />
         </div>
       </div>
@@ -299,9 +295,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
 import Checkbox from 'primevue/checkbox';
 import FileUpload from 'primevue/fileupload';
@@ -309,6 +302,10 @@ import Drawer from 'primevue/drawer';
 import { MEDICOS, HORAS, EXAMES } from '../constants/common';
 import Tag from 'primevue/tag';
 import ViewPatient from './ViewPatient.vue';
+import BaseButton from '../components/common/BaseButton.vue';
+import BaseInput from '../components/common/BaseInput.vue';
+import BaseDropdown from '../components/common/BaseDropdown.vue';
+import Button from 'primevue/button';
 const isUtente = ref(true);
 const form = ref({
   medicoPrescritor: '',

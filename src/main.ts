@@ -6,7 +6,6 @@ import router from './router/index.js';
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import 'primeicons/primeicons.css';
-import 'tailwindcss-primeui';
 import { definePreset } from '@primeuix/themes';
 import { i18n } from './plugins/i18n';
 
